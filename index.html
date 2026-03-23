@@ -439,8 +439,8 @@ DESKTOP
     <div class="toolbar-spacer"></div>
     <div class="toolbar-ver">v2.0.0</div>
     <div style="position:relative">
-      <button class="ibtn" onclick="toggleMenu()" id="menuBtn" title="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      <button class="ibtn" onclick="toggleMenu(event)" id="menuBtn" title="Menu">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="pointer-events:none"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
       </button>
       <div class="dropdown" id="toolbarMenu">
         <button class="dropdown-item" onclick="openImportModal();closeMenu()">
@@ -686,10 +686,15 @@ function findUsages(actionKey) {
 /* =============================================================
    TOOLBAR DROPDOWN
    ============================================================= */
-function toggleMenu() { document.getElementById('toolbarMenu').classList.toggle('open'); }
+function toggleMenu(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('toolbarMenu').classList.toggle('open');
+}
 function closeMenu() { document.getElementById('toolbarMenu').classList.remove('open'); }
-document.addEventListener('click', e => {
-  if (!e.target.closest('#menuBtn') && !e.target.closest('#toolbarMenu')) closeMenu();
+document.addEventListener('click', function(e) {
+  var btn = document.getElementById('menuBtn');
+  var menu = document.getElementById('toolbarMenu');
+  if (btn && !btn.contains(e.target) && menu && !menu.contains(e.target)) closeMenu();
 });
 
 /* =============================================================
