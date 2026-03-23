@@ -2,1216 +2,1227 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MoveForge</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ISLAND MON · Dev Sandbox</title>
 <style>
-/* ============================================================
-   VARIABLES & RESET
-   ============================================================ */
+/* =============================================
+   ROOT & THEME
+   ============================================= */
 :root {
-  --bg-0: #0b0e14;
-  --bg-1: #111620;
-  --bg-2: #181d2a;
-  --bg-3: #1f2637;
-  --bg-4: #272f42;
-  --border: #2a3144;
-  --border-hi: #3d4663;
-  --text-1: #e8ecf4;
-  --text-2: #9ca3b4;
-  --text-3: #5c6478;
-  --accent: #f59e42;
-  --accent-dim: rgba(245,158,66,0.12);
-  --accent-mid: rgba(245,158,66,0.3);
-  --blue: #5eadff;
-  --blue-dim: rgba(94,173,255,0.12);
-  --green: #4ade80;
-  --green-dim: rgba(74,222,128,0.12);
-  --purple: #c084fc;
-  --purple-dim: rgba(192,132,252,0.12);
-  --red: #f87171;
-  --yellow: #facc15;
-  --yellow-dim: rgba(250,204,21,0.12);
-  --teal: #2dd4bf;
-  --teal-dim: rgba(45,212,191,0.12);
-  --pink: #f472b6;
-  --pink-dim: rgba(244,114,182,0.12);
-  --radius: 10px;
-  --radius-sm: 6px;
-  --mono: 'DM Mono', monospace;
-  --sans: 'Nunito', system-ui, sans-serif;
-  --fast: 120ms ease;
-  --med: 200ms ease;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:15px;-webkit-tap-highlight-color:transparent}
-body{font-family:var(--sans);background:var(--bg-0);color:var(--text-1);min-height:100vh;min-height:100dvh;overflow:hidden;position:fixed;width:100%;overscroll-behavior:none}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-input,textarea,select,button{font-family:inherit;font-size:inherit}
-
-/* ============================================================
-APP SHELL
-============================================================ */
-.app{display:flex;flex-direction:column;height:100vh;height:100dvh}
-
-.toolbar{
-display:flex;align-items:center;gap:8px;
-padding:8px 12px;
-background:var(–bg-1);border-bottom:1px solid var(–border);
-flex-shrink:0;min-height:48px;z-index:10;
-}
-.toolbar-brand{
-font-family:var(–mono);font-weight:500;font-size:.85rem;
-color:var(–accent);letter-spacing:-.3px;
-display:flex;align-items:center;gap:6px;
-}
-.toolbar-brand svg{width:18px;height:18px}
-.toolbar-spacer{flex:1}
-.toolbar-ver{font-family:var(–mono);font-size:.6rem;color:var(–text-3)}
-
-.ibtn{
-width:36px;height:36px;border:none;border-radius:var(–radius-sm);
-background:transparent;color:var(–text-2);cursor:pointer;
-display:flex;align-items:center;justify-content:center;
-transition:all var(–fast);flex-shrink:0;
-}
-.ibtn:active{transform:scale(.92)}
-.ibtn:hover,.ibtn.active{background:var(–bg-3);color:var(–text-1)}
-.ibtn svg{width:18px;height:18px}
-
-.menu-btn{
-display:flex;align-items:center;gap:5px;
-padding:6px 12px;min-height:36px;
-border:1px solid var(–border);border-radius:var(–radius-sm);
-background:var(–bg-3);color:var(–text-2);
-font-family:var(–mono);font-size:.7rem;font-weight:500;
-cursor:pointer;transition:all var(–fast);
--webkit-user-select:none;user-select:none;
-position:relative;z-index:2;
-}
-.menu-btn:active{transform:scale(.95);background:var(–bg-4)}
-.menu-btn:hover{border-color:var(–accent);color:var(–text-1)}
-.menu-btn svg{flex-shrink:0}
-
-.filter-bar{
-display:flex;align-items:center;gap:6px;
-padding:6px 12px;
-background:var(–bg-1);border-bottom:1px solid var(–border);
-flex-shrink:0;overflow-x:auto;
--webkit-overflow-scrolling:touch;scrollbar-width:none;
-}
-.filter-bar::-webkit-scrollbar{display:none}
-
-.filter-chip{
-font-family:var(–mono);font-size:.65rem;font-weight:500;
-padding:4px 10px;border-radius:20px;
-background:var(–bg-3);color:var(–text-2);border:1px solid var(–border);
-cursor:pointer;white-space:nowrap;transition:all var(–fast);
-display:flex;align-items:center;gap:4px;flex-shrink:0;
-}
-.filter-chip:active{transform:scale(.95)}
-.filter-chip.active{background:var(–accent-dim);color:var(–accent);border-color:var(–accent-mid)}
-.filter-chip .chip-x{
-width:14px;height:14px;border-radius:50%;
-background:rgba(255,255,255,.15);display:inline-flex;
-align-items:center;justify-content:center;font-size:9px;margin-left:2px;
+  --bg:        #0a0c10;
+  --panel:     #10151e;
+  --border:    #1e2a3a;
+  --accent:    #00e5ff;
+  --accent2:   #ff4081;
+  --accent3:   #76ff03;
+  --text:      #c8d8e8;
+  --text-dim:  #5a7080;
+  --tab-h:     44px;
+  --editor-h:  220px;
+  --radius:    6px;
+  --font-mono: 'Courier New', Courier, monospace;
+  --font-ui:   'Segoe UI', system-ui, sans-serif;
 }
 
-.search-wrap{flex:1;min-width:100px;position:relative}
-.search-wrap input{
-width:100%;font-family:var(–mono);font-size:.75rem;
-padding:5px 10px 5px 28px;
-background:var(–bg-2);border:1px solid var(–border);border-radius:20px;
-color:var(–text-1);outline:none;transition:border-color var(–fast);
-}
-.search-wrap input:focus{border-color:var(–accent)}
-.search-wrap input::placeholder{color:var(–text-3)}
-.search-wrap svg{
-position:absolute;left:9px;top:50%;transform:translateY(-50%);
-width:14px;height:14px;color:var(–text-3);pointer-events:none;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: var(–font-ui);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+overflow-x: hidden;
 }
 
-.stat-row{
-display:flex;gap:12px;padding:0 12px 6px;
-background:var(–bg-1);flex-shrink:0;
+/* =============================================
+SCANLINE OVERLAY (aesthetic)
+============================================= */
+body::after {
+content: ‘’;
+position: fixed;
+inset: 0;
+background: repeating-linear-gradient(
+0deg,
+transparent,
+transparent 2px,
+rgba(0,0,0,0.07) 2px,
+rgba(0,0,0,0.07) 4px
+);
+pointer-events: none;
+z-index: 9999;
 }
-.stat-pill{font-family:var(–mono);font-size:.6rem;color:var(–text-3)}
-.stat-pill b{color:var(–text-2)}
 
-/* ============================================================
-MAIN LIST
-============================================================ */
-.main-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 8px;padding-bottom:calc(60px + var(–safe-bottom))}
+/* =============================================
+HEADER
+============================================= */
+header {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 16px;
+border-bottom: 1px solid var(–border);
+background: var(–panel);
+flex-shrink: 0;
+}
 
-.pkmn-row{
-display:flex;align-items:center;gap:10px;
-padding:10px 12px;margin-bottom:4px;
-background:var(–bg-1);border:1px solid var(–border);
-border-radius:var(–radius);cursor:pointer;
-transition:all var(–fast);-webkit-user-select:none;user-select:none;
+header .logo {
+font-family: var(–font-mono);
+font-size: 13px;
+letter-spacing: 0.15em;
+color: var(–accent);
+text-shadow: 0 0 8px var(–accent);
+white-space: nowrap;
 }
-.pkmn-row:active{transform:scale(.985);background:var(–bg-2)}
 
-.pkmn-sprite{
-width:44px;height:44px;image-rendering:pixelated;flex-shrink:0;
-background:var(–bg-2);border-radius:var(–radius-sm);
+header .version {
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
 }
-.pkmn-info{flex:1;min-width:0}
-.pkmn-name{font-weight:700;font-size:.9rem;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pkmn-sub{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px}
-.pkmn-badge{
-font-family:var(–mono);font-size:.6rem;font-weight:500;
-padding:1px 6px;border-radius:3px;white-space:nowrap;
-cursor:pointer;transition:all var(–fast);
-}
-.pkmn-badge:active{transform:scale(.93)}
-.pkmn-badge.b-habitat{background:var(–teal-dim);color:var(–teal)}
-.pkmn-badge.b-personality{background:var(–pink-dim);color:var(–pink)}
-.pkmn-badge.b-moves{background:var(–blue-dim);color:var(–blue)}
-.pkmn-id{font-family:var(–mono);font-size:.65rem;color:var(–text-3);flex-shrink:0}
-.pkmn-row-arrow{color:var(–text-3);flex-shrink:0}
-.pkmn-row-arrow svg{width:16px;height:16px}
 
-.empty{
-display:flex;flex-direction:column;align-items:center;
-justify-content:center;padding:48px 24px;text-align:center;
-color:var(–text-3);gap:8px;
-}
-.empty-big{font-size:2rem;opacity:.4}
-.empty-text{font-family:var(–mono);font-size:.75rem;line-height:1.6}
+header .spacer { flex: 1; }
 
-/* FAB */
-.fab-row{
-position:fixed;bottom:0;left:0;right:0;
-display:flex;align-items:center;justify-content:center;gap:8px;
-padding:10px 16px;padding-bottom:calc(10px + var(–safe-bottom));
-background:linear-gradient(transparent,var(–bg-0) 30%);
-pointer-events:none;z-index:20;
+header .header-btn {
+background: none;
+border: 1px solid var(–border);
+color: var(–text-dim);
+font-family: var(–font-mono);
+font-size: 11px;
+padding: 4px 10px;
+border-radius: var(–radius);
+cursor: pointer;
+transition: all .15s;
 }
-.fab{
-pointer-events:all;
-font-family:var(–mono);font-size:.72rem;font-weight:500;
-padding:10px 18px;border-radius:24px;
-border:1px solid var(–border);background:var(–bg-2);
-color:var(–text-1);cursor:pointer;
-display:flex;align-items:center;gap:6px;
-box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all var(–fast);
+header .header-btn:hover {
+border-color: var(–accent2);
+color: var(–accent2);
 }
-.fab:active{transform:scale(.95)}
-.fab.primary{background:var(–accent);color:var(–bg-0);border-color:var(–accent)}
-.fab svg{width:16px;height:16px}
 
-/* ============================================================
-MODAL SYSTEM — slide-up sheets
-============================================================ */
-.modal-overlay{
-position:fixed;inset:0;z-index:100;
-background:rgba(0,0,0,.6);backdrop-filter:blur(3px);
-opacity:0;pointer-events:none;transition:opacity var(–med);
+/* =============================================
+MAIN LAYOUT
+============================================= */
+main {
+display: flex;
+flex: 1;
+overflow: hidden;
+min-height: 0;
 }
-.modal-overlay.open{opacity:1;pointer-events:all}
 
-.modal-sheet{
-position:fixed;left:0;right:0;bottom:0;z-index:101;
-background:var(–bg-1);border-top:1px solid var(–border);
-border-radius:16px 16px 0 0;
-max-height:92vh;max-height:92dvh;
-display:flex;flex-direction:column;
-transform:translateY(100%);
-transition:transform 280ms cubic-bezier(.32,.72,0,1);
-padding-bottom:var(–safe-bottom);
+/* =============================================
+LEFT PANEL — EDITOR
+============================================= */
+#editor-panel {
+width: 400px;
+min-width: 300px;
+display: flex;
+flex-direction: column;
+border-right: 1px solid var(–border);
+background: var(–panel);
+flex-shrink: 0;
 }
-.modal-sheet.open{transform:translateY(0)}
 
-.sheet-handle{width:36px;height:4px;border-radius:2px;background:var(–border-hi);margin:8px auto 0;flex-shrink:0}
+/* Tab bar */
+#tab-bar {
+display: flex;
+overflow-x: auto;
+border-bottom: 1px solid var(–border);
+scrollbar-width: thin;
+scrollbar-color: var(–border) transparent;
+flex-shrink: 0;
+}
 
-.sheet-header{
-display:flex;align-items:center;gap:10px;
-padding:12px 16px 10px;flex-shrink:0;
-}
-.sheet-title{flex:1;font-weight:700;font-size:1rem}
-.sheet-close{
-width:32px;height:32px;border:none;border-radius:50%;
-background:var(–bg-3);color:var(–text-2);cursor:pointer;
-display:flex;align-items:center;justify-content:center;font-size:1.1rem;
-transition:all var(–fast);flex-shrink:0;
-}
-.sheet-close:active{transform:scale(.9);background:var(–bg-4)}
+#tab-bar::-webkit-scrollbar { height: 3px; }
+#tab-bar::-webkit-scrollbar-thumb { background: var(–border); }
 
-.sheet-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 16px}
+.tab-btn {
+flex-shrink: 0;
+height: var(–tab-h);
+padding: 0 14px;
+background: none;
+border: none;
+border-right: 1px solid var(–border);
+color: var(–text-dim);
+font-family: var(–font-mono);
+font-size: 11px;
+letter-spacing: 0.08em;
+cursor: pointer;
+transition: all .15s;
+white-space: nowrap;
+position: relative;
+}
+.tab-btn:hover { color: var(–text); background: rgba(255,255,255,0.03); }
+.tab-btn.active {
+color: var(–accent);
+background: rgba(0,229,255,0.05);
+}
+.tab-btn.active::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 2px;
+background: var(–accent);
+box-shadow: 0 0 6px var(–accent);
+}
+.tab-btn .tab-dot {
+display: inline-block;
+width: 5px; height: 5px;
+border-radius: 50%;
+margin-right: 6px;
+background: currentColor;
+opacity: 0.5;
+}
+.tab-btn.has-code .tab-dot { opacity: 1; }
 
-.sheet-footer{
-padding:10px 16px;border-top:1px solid var(–border);
-display:flex;gap:8px;flex-shrink:0;
+#add-tab-btn {
+flex-shrink: 0;
+height: var(–tab-h);
+width: var(–tab-h);
+background: none;
+border: none;
+border-right: 1px solid var(–border);
+color: var(–text-dim);
+font-size: 18px;
+cursor: pointer;
+transition: color .15s;
 }
-.sheet-footer .btn{flex:1}
+#add-tab-btn:hover { color: var(–accent3); }
 
-.btn{
-font-family:var(–mono);font-size:.75rem;font-weight:500;
-padding:10px 16px;border-radius:var(–radius-sm);
-border:1px solid var(–border);background:var(–bg-3);
-color:var(–text-1);cursor:pointer;text-align:center;
-transition:all var(–fast);min-height:40px;
-display:flex;align-items:center;justify-content:center;gap:6px;
+/* Editor meta bar */
+#editor-meta {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 6px 10px;
+border-bottom: 1px solid var(–border);
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+flex-shrink: 0;
 }
-.btn:active{transform:scale(.97)}
-.btn.btn-accent{background:var(–accent);color:var(–bg-0);border-color:var(–accent)}
 
-.field{margin-bottom:14px}
-.field-label{
-font-family:var(–mono);font-size:.6rem;font-weight:500;
-text-transform:uppercase;letter-spacing:1px;
-color:var(–text-3);margin-bottom:5px;display:block;
+#editor-meta .mode-toggle {
+display: flex;
+gap: 0;
+margin-left: auto;
 }
-.field-input{
-width:100%;font-family:var(–mono);font-size:.8rem;
-padding:10px 12px;background:var(–bg-0);
-border:1px solid var(–border);border-radius:var(–radius-sm);
-color:var(–text-1);outline:none;transition:border-color var(–fast);
+.mode-btn {
+background: none;
+border: 1px solid var(–border);
+color: var(–text-dim);
+font-family: var(–font-mono);
+font-size: 10px;
+padding: 2px 8px;
+cursor: pointer;
+transition: all .15s;
 }
-.field-input:focus{border-color:var(–accent)}
-.field-input::placeholder{color:var(–text-3)}
-textarea.field-input{resize:vertical;min-height:100px;line-height:1.5}
+.mode-btn:first-child { border-radius: var(–radius) 0 0 var(–radius); }
+.mode-btn:last-child  { border-radius: 0 var(–radius) var(–radius) 0; margin-left: -1px; }
+.mode-btn.active { background: var(–accent); color: #000; border-color: var(–accent); }
 
-/* ============================================================
-DETAIL MODAL
-============================================================ */
-.detail-header{
-display:flex;align-items:center;gap:14px;
-padding:0 0 14px;margin-bottom:14px;border-bottom:1px solid var(–border);
+/* Code textarea */
+#code-editor {
+flex: 1;
+background: #080b10;
+color: #a8c8d8;
+font-family: var(–font-mono);
+font-size: 12px;
+line-height: 1.6;
+padding: 12px;
+border: none;
+resize: none;
+outline: none;
+tab-size: 2;
+min-height: var(–editor-h);
 }
-.detail-sprite{
-width:72px;height:72px;image-rendering:pixelated;
-background:var(–bg-2);border-radius:var(–radius);
-border:2px solid var(–border);flex-shrink:0;
-}
-.detail-name{font-weight:800;font-size:1.2rem;line-height:1.2}
-.detail-id{font-family:var(–mono);font-size:.7rem;color:var(–text-3)}
-.detail-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+#code-editor::placeholder { color: #2a3a4a; }
+#code-editor:focus { background: #090d14; }
 
-.section{margin-bottom:12px}
-.section-toggle{
-display:flex;align-items:center;gap:8px;
-width:100%;padding:8px 0;border:none;background:none;
-color:var(–text-2);cursor:pointer;
-font-family:var(–mono);font-size:.65rem;font-weight:500;
-text-transform:uppercase;letter-spacing:1px;
-border-bottom:1px solid var(–border);transition:color var(–fast);
+/* Action bar */
+#action-bar {
+display: flex;
+gap: 8px;
+padding: 8px 10px;
+border-top: 1px solid var(–border);
+flex-shrink: 0;
 }
-.section-toggle:hover{color:var(–text-1)}
-.section-toggle svg{width:14px;height:14px;transition:transform var(–fast)}
-.section-toggle.expanded svg{transform:rotate(90deg)}
-.section-toggle .count{
-margin-left:auto;font-size:.6rem;
-background:var(–bg-3);padding:1px 6px;border-radius:8px;color:var(–text-3);
-}
-.section-body{display:none;padding:10px 0 0}
-.section-body.expanded{display:block}
 
-.move-card{
-background:var(–bg-2);border:1px solid var(–border);
-border-radius:var(–radius-sm);padding:10px 12px;margin-bottom:6px;
+.action-btn {
+flex: 1;
+height: 36px;
+border: none;
+border-radius: var(–radius);
+font-family: var(–font-mono);
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.1em;
+cursor: pointer;
+transition: all .15s;
 }
-.move-card-top{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.move-slot-num{
-font-family:var(–mono);font-size:.55rem;font-weight:500;
-color:var(–text-3);background:var(–bg-0);padding:2px 6px;border-radius:3px;flex-shrink:0;
+#run-btn {
+background: var(–accent);
+color: #000;
+box-shadow: 0 0 12px rgba(0,229,255,0.3);
 }
-.move-tags{display:flex;gap:4px;flex-wrap:wrap;flex:1}
-.mtag{font-family:var(–mono);font-size:.6rem;font-weight:500;padding:2px 7px;border-radius:3px}
-.mtag-action{background:var(–blue-dim);color:var(–blue)}
-.mtag-param{background:var(–purple-dim);color:var(–purple)}
-.mtag-mod{background:var(–yellow-dim);color:var(–yellow)}
+#run-btn:hover { box-shadow: 0 0 20px rgba(0,229,255,0.5); transform: translateY(-1px); }
+#run-btn:active { transform: translateY(0); }
 
-.move-card-input-row{display:flex;gap:6px;align-items:center}
-.move-card-input-row .autocomplete-wrapper{flex:1;position:relative}
-.move-card-input{
-width:100%;font-family:var(–mono);font-size:.78rem;
-padding:8px 10px;background:var(–bg-0);
-border:1px solid var(–border);border-radius:var(–radius-sm);
-color:var(–text-1);outline:none;
+#clear-btn {
+background: none;
+border: 1px solid var(–border);
+color: var(–text-dim);
+flex: 0 0 auto;
+width: 36px;
+font-size: 14px;
 }
-.move-card-input:focus{border-color:var(–accent)}
+#clear-btn:hover { border-color: var(–accent2); color: var(–accent2); }
 
-.move-notes-btn{
-width:36px;height:36px;min-width:36px;
-border:1px solid var(–border);border-radius:var(–radius-sm);
-background:var(–bg-3);color:var(–text-3);cursor:pointer;
-display:flex;align-items:center;justify-content:center;transition:all var(–fast);
+/* =============================================
+JSON DATA PANEL (below editor)
+============================================= */
+#data-panel {
+border-top: 1px solid var(–border);
+flex-shrink: 0;
 }
-.move-notes-btn:active{transform:scale(.92)}
-.move-notes-btn.has-notes{color:var(–accent);border-color:var(–accent-mid)}
-.move-notes-btn svg{width:16px;height:16px}
 
-.add-slot-btn{
-width:100%;padding:8px;border:1px dashed var(–border);
-border-radius:var(–radius-sm);background:transparent;
-color:var(–text-3);font-family:var(–mono);font-size:.7rem;
-cursor:pointer;transition:all var(–fast);
+#data-panel-header {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 6px 10px;
+background: rgba(0,0,0,0.2);
+cursor: pointer;
+font-family: var(–font-mono);
+font-size: 10px;
+letter-spacing: 0.08em;
+color: var(–text-dim);
+user-select: none;
 }
-.add-slot-btn:active{background:var(–bg-3)}
+#data-panel-header:hover { color: var(–accent3); }
+#data-panel-header .dp-arrow { transition: transform .2s; }
+#data-panel-header.open .dp-arrow { transform: rotate(90deg); }
+#data-panel-header .dp-keys {
+margin-left: auto;
+color: var(–accent3);
+font-size: 9px;
+}
 
-.ac-drop{
-position:absolute;top:100%;left:0;right:0;
-background:var(–bg-1);border:1px solid var(–border);border-top:none;
-border-radius:0 0 var(–radius-sm) var(–radius-sm);
-max-height:160px;overflow-y:auto;z-index:60;display:none;
+#data-panel-body {
+display: none;
+padding: 8px 10px;
+gap: 6px;
+flex-direction: column;
 }
-.ac-drop.open{display:block}
-.ac-item{
-padding:8px 10px;font-family:var(–mono);font-size:.72rem;
-cursor:pointer;display:flex;align-items:center;gap:6px;
-transition:background var(–fast);
-}
-.ac-item:active,.ac-item.hl{background:var(–accent-dim)}
-.ac-badge{font-size:.5rem;font-weight:500;text-transform:uppercase;letter-spacing:.5px;padding:1px 4px;border-radius:2px}
-.ac-badge-act{background:var(–blue-dim);color:var(–blue)}
-.ac-badge-mv{background:var(–green-dim);color:var(–green)}
+#data-panel-body.open { display: flex; }
 
-/* ============================================================
-NOTES MODAL — star feature: usage grid
-============================================================ */
-.notes-action-title{font-family:var(–mono);font-size:1rem;font-weight:500;color:var(–blue);margin-bottom:2px}
-.notes-action-count{font-family:var(–mono);font-size:.65rem;color:var(–text-3);margin-bottom:12px}
+#json-input {
+background: #080b10;
+color: #a8d8a8;
+font-family: var(–font-mono);
+font-size: 11px;
+padding: 8px;
+border: 1px solid var(–border);
+border-radius: var(–radius);
+resize: vertical;
+outline: none;
+min-height: 80px;
+max-height: 160px;
+}
+#json-input:focus { border-color: var(–accent3); }
 
-.usage-grid{
-display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-gap:6px;margin-bottom:14px;
+#json-load-btn {
+background: var(–accent3);
+color: #000;
+border: none;
+border-radius: var(–radius);
+height: 30px;
+font-family: var(–font-mono);
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 0.1em;
+cursor: pointer;
 }
-.usage-card{
-display:flex;align-items:center;gap:8px;
-padding:8px 10px;background:var(–bg-2);
-border:1px solid var(–border);border-radius:var(–radius-sm);
-cursor:pointer;transition:all var(–fast);
-}
-.usage-card:active{transform:scale(.97);background:var(–bg-3)}
-.usage-card img{width:32px;height:32px;image-rendering:pixelated;flex-shrink:0}
-.usage-card-info{min-width:0}
-.usage-card-name{font-size:.75rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.usage-card-move{font-family:var(–mono);font-size:.6rem;color:var(–text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#json-load-btn:hover { opacity: 0.85; }
 
-/* ============================================================
-IMPORT MODAL
-============================================================ */
-.import-hint{font-size:.78rem;color:var(–text-2);line-height:1.5;margin-bottom:10px}
-.import-pre{
-font-family:var(–mono);font-size:.65rem;
-background:var(–bg-0);border:1px solid var(–border);
-border-radius:var(–radius-sm);padding:10px;
-overflow-x:auto;color:var(–text-3);line-height:1.4;margin-bottom:10px;
+#json-status {
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+min-height: 14px;
 }
-.import-error{font-family:var(–mono);font-size:.7rem;color:var(–red);min-height:1.2em;margin-top:6px}
 
-/* ============================================================
-DROPDOWN MENU
-============================================================ */
-.dropdown{
-position:fixed;top:52px;right:8px;
-background:var(–bg-2);border:1px solid var(–border);
-border-radius:var(–radius);min-width:180px;
-box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:200;display:none;overflow:hidden;
+/* =============================================
+RIGHT PANEL — CANVAS + LOG
+============================================= */
+#right-panel {
+flex: 1;
+display: flex;
+flex-direction: column;
+min-width: 0;
+overflow: hidden;
 }
-.dropdown.open{display:block}
-.dropdown-item{
-display:flex;align-items:center;gap:8px;
-padding:10px 14px;font-size:.78rem;font-weight:600;
-color:var(–text-2);cursor:pointer;transition:all var(–fast);
-border:none;background:none;width:100%;text-align:left;
-}
-.dropdown-item:active{background:var(–bg-3);color:var(–text-1)}
-.dropdown-item svg{width:16px;height:16px;flex-shrink:0}
-.dropdown-sep{height:1px;background:var(–border);margin:2px 0}
 
-/* ============================================================
-DESKTOP
-============================================================ */
-@media(min-width:641px){
-.modal-sheet{left:50%;right:auto;width:480px;transform:translate(-50%,100%);border-radius:16px 16px 0 0}
-.modal-sheet.open{transform:translate(-50%,0)}
-.modal-sheet.wide{width:560px}
-.main-scroll{padding:8px 16px}
-.pkmn-row{max-width:600px;margin-left:auto;margin-right:auto}
-.filter-bar{justify-content:center}
-.usage-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+#canvas-wrapper {
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #05080d;
+position: relative;
+overflow: hidden;
+min-height: 300px;
+}
+
+#canvas-wrapper .canvas-label {
+position: absolute;
+top: 8px; left: 12px;
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+letter-spacing: 0.08em;
+pointer-events: none;
+z-index: 10;
+}
+
+#canvas-wrapper .idle-msg {
+font-family: var(–font-mono);
+font-size: 12px;
+color: var(–text-dim);
+text-align: center;
+padding: 20px;
+line-height: 2;
+}
+#canvas-wrapper .idle-msg span { color: var(–accent); }
+
+#phaser-container canvas {
+display: block;
+max-width: 100%;
+}
+
+/* Log panel */
+#log-panel {
+height: 120px;
+border-top: 1px solid var(–border);
+display: flex;
+flex-direction: column;
+flex-shrink: 0;
+}
+
+#log-header {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 4px 10px;
+background: rgba(0,0,0,0.2);
+border-bottom: 1px solid var(–border);
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+flex-shrink: 0;
+}
+
+#log-header .log-indicator {
+width: 6px; height: 6px;
+border-radius: 50%;
+background: var(–text-dim);
+transition: background .3s;
+}
+#log-header .log-indicator.active { background: var(–accent3); box-shadow: 0 0 4px var(–accent3); }
+
+#clear-log-btn {
+margin-left: auto;
+background: none;
+border: none;
+color: var(–text-dim);
+font-family: var(–font-mono);
+font-size: 10px;
+cursor: pointer;
+}
+#clear-log-btn:hover { color: var(–accent2); }
+
+#log-output {
+flex: 1;
+overflow-y: auto;
+padding: 6px 10px;
+font-family: var(–font-mono);
+font-size: 11px;
+line-height: 1.6;
+scrollbar-width: thin;
+scrollbar-color: var(–border) transparent;
+}
+#log-output::-webkit-scrollbar { width: 4px; }
+#log-output::-webkit-scrollbar-thumb { background: var(–border); }
+
+.log-line { color: var(–text-dim); }
+.log-line.info  { color: var(–accent); }
+.log-line.ok    { color: var(–accent3); }
+.log-line.warn  { color: #ffb300; }
+.log-line.error { color: var(–accent2); }
+.log-line .log-ts { color: #2a4050; margin-right: 6px; }
+
+/* =============================================
+STORAGE DRAWER (bottom)
+============================================= */
+#storage-drawer {
+border-top: 1px solid var(–border);
+background: var(–panel);
+flex-shrink: 0;
+}
+
+#storage-header {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 6px 12px;
+cursor: pointer;
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+letter-spacing: 0.08em;
+user-select: none;
+}
+#storage-header:hover { color: var(–text); }
+#storage-header .sh-arrow { transition: transform .2s; }
+#storage-header.open .sh-arrow { transform: rotate(90deg); }
+
+#storage-body {
+display: none;
+padding: 8px 12px;
+gap: 6px;
+flex-wrap: wrap;
+}
+#storage-body.open { display: flex; }
+
+.storage-chip {
+display: flex;
+align-items: center;
+gap: 6px;
+background: rgba(255,255,255,0.04);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 4px 8px;
+font-family: var(–font-mono);
+font-size: 10px;
+color: var(–text-dim);
+}
+.storage-chip .chip-key { color: var(–accent3); }
+.storage-chip .chip-del {
+background: none;
+border: none;
+color: var(–text-dim);
+cursor: pointer;
+font-size: 12px;
+line-height: 1;
+padding: 0 2px;
+}
+.storage-chip .chip-del:hover { color: var(–accent2); }
+
+/* =============================================
+MODAL — ADD TAB
+============================================= */
+#modal-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.7);
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+}
+#modal-overlay.open { display: flex; }
+
+#modal-box {
+background: var(–panel);
+border: 1px solid var(–border);
+border-radius: var(–radius);
+padding: 20px;
+min-width: 280px;
+box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+#modal-box h3 {
+font-family: var(–font-mono);
+font-size: 12px;
+letter-spacing: 0.1em;
+color: var(–accent);
+margin-bottom: 12px;
+}
+#new-tab-name {
+width: 100%;
+background: #080b10;
+border: 1px solid var(–border);
+border-radius: var(–radius);
+color: var(–text);
+font-family: var(–font-mono);
+font-size: 13px;
+padding: 8px 10px;
+outline: none;
+margin-bottom: 10px;
+}
+#new-tab-name:focus { border-color: var(–accent); }
+.modal-btns { display: flex; gap: 8px; }
+.modal-btns button {
+flex: 1;
+height: 34px;
+border: none;
+border-radius: var(–radius);
+font-family: var(–font-mono);
+font-size: 11px;
+font-weight: 700;
+cursor: pointer;
+}
+#modal-ok  { background: var(–accent); color: #000; }
+#modal-cancel { background: none; border: 1px solid var(–border); color: var(–text-dim); }
+
+/* =============================================
+RESPONSIVE
+============================================= */
+@media (max-width: 900px) {
+main { flex-direction: column; }
+#editor-panel { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(–border); }
+#code-editor { min-height: 140px; }
+#right-panel { min-height: 300px; }
+}
+
+@media (max-width: 600px) {
+header .logo { font-size: 11px; }
+.tab-btn { padding: 0 10px; font-size: 10px; }
+#log-panel { height: 90px; }
+}
+
+@media (max-width: 380px) {
+#editor-panel { min-width: 0; }
+#action-bar { gap: 4px; }
 }
 </style>
 
 </head>
 <body>
 
-<div class="app">
-  <div class="toolbar">
-    <div class="toolbar-brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      MoveForge
+<!-- =============================================
+     HEADER
+     ============================================= -->
+
+<header>
+  <div class="logo">◈ ISLAND MON · SANDBOX</div>
+  <div class="version">v1.0.0</div>
+  <div class="spacer"></div>
+  <button class="header-btn" id="export-btn" title="Export all snippets as JSON">EXPORT</button>
+  <button class="header-btn" id="import-btn" title="Import snippets JSON">IMPORT</button>
+  <input type="file" id="import-file-input" accept=".json" style="display:none" />
+</header>
+
+<!-- =============================================
+     MAIN LAYOUT
+     ============================================= -->
+
+<main>
+
+  <!-- LEFT: EDITOR PANEL -->
+
+  <div id="editor-panel">
+
+```
+<!-- Tab bar -->
+<div id="tab-bar">
+  <!-- tabs injected by JS -->
+  <button id="add-tab-btn" title="Add system tab">+</button>
+</div>
+
+<!-- Editor meta -->
+<div id="editor-meta">
+  <span id="active-tab-label">—</span>
+  <span>·</span>
+  <span id="char-count">0 chars</span>
+  <div class="mode-toggle">
+    <button class="mode-btn active" data-mode="js">JS</button>
+    <button class="mode-btn" data-mode="json">JSON</button>
+  </div>
+</div>
+
+<!-- Code editor -->
+<textarea id="code-editor" spellcheck="false" placeholder="// Paste JavaScript or JSON here.
+```
+
+// Click RUN to save and execute.
+//
+// Global API:
+//   SandboxAPI.getData(key)   — read stored JSON
+//   SandboxAPI.log(msg)       — log to console panel
+//   SandboxAPI.getScene()     — active Phaser scene
+//   SandboxAPI.gameState      — shared game object”></textarea>
+
+```
+<!-- Action bar -->
+<div id="action-bar">
+  <button class="action-btn" id="run-btn">▶ RUN</button>
+  <button class="action-btn" id="clear-btn" title="Clear editor">✕</button>
+</div>
+
+<!-- JSON data panel -->
+<div id="data-panel">
+  <div id="data-panel-header">
+    <span class="dp-arrow">▶</span>
+    <span>DATA STORE</span>
+    <span class="dp-keys" id="dp-key-list">empty</span>
+  </div>
+  <div id="data-panel-body">
+    <textarea id="json-input" spellcheck="false" placeholder='{"pokemon": [{"name":"Bulbasaur","hp":45}]}'></textarea>
+    <button id="json-load-btn">LOAD JSON</button>
+    <div id="json-status"></div>
+  </div>
+</div>
+```
+
+  </div><!-- /editor-panel -->
+
+  <!-- RIGHT: CANVAS + LOG -->
+
+  <div id="right-panel">
+
+```
+<div id="canvas-wrapper">
+  <div class="canvas-label" id="scene-label">SCENE · idle</div>
+  <div id="phaser-container"></div>
+  <div class="idle-msg" id="idle-msg">
+    Select a tab · paste code · press <span>▶ RUN</span>
+  </div>
+</div>
+
+<!-- Log -->
+<div id="log-panel">
+  <div id="log-header">
+    <div class="log-indicator" id="log-indicator"></div>
+    <span>CONSOLE</span>
+    <button id="clear-log-btn">CLEAR</button>
+  </div>
+  <div id="log-output"></div>
+</div>
+```
+
+  </div><!-- /right-panel -->
+
+</main>
+
+<!-- Storage drawer -->
+
+<div id="storage-drawer">
+  <div id="storage-header">
+    <span class="sh-arrow">▶</span>
+    <span>LOCALSTORAGE KEYS</span>
+  </div>
+  <div id="storage-body" id="storage-chips"></div>
+</div>
+
+<!-- Add Tab Modal -->
+
+<div id="modal-overlay">
+  <div id="modal-box">
+    <h3>NEW SYSTEM TAB</h3>
+    <input type="text" id="new-tab-name" placeholder="e.g. Weather, Loot, Biomes…" maxlength="24" />
+    <div class="modal-btns">
+      <button id="modal-ok">CREATE</button>
+      <button id="modal-cancel">CANCEL</button>
     </div>
-    <div class="toolbar-spacer"></div>
-    <div class="toolbar-ver">v3.0.1</div>
-    <button type="button" class="menu-btn" id="menuBtn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-        Menu
-      </button>
-  </div>
-
-  <div class="filter-bar" id="filterBar">
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="searchInput" placeholder="Search name or move..." oninput="applyFilters()">
-    </div>
-  </div>
-
-  <div class="stat-row" id="statRow">
-    <div class="stat-pill">Mons: <b id="sStat">0</b></div>
-    <div class="stat-pill">Actions: <b id="aStat">0</b></div>
-    <div class="stat-pill">Notes: <b id="nStat">0</b></div>
-  </div>
-
-  <div class="main-scroll" id="mainScroll">
-    <div class="empty" id="emptyState">
-      <div class="empty-big">&#x1F4E6;</div>
-      <div class="empty-text">No data loaded yet.<br>Tap the menu &#x22EE; to Import JSON.</div>
-    </div>
-  </div>
-
-  <div class="fab-row" id="fabRow" style="display:none">
-    <button class="fab primary" onclick="openImportModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Import More
-    </button>
   </div>
 </div>
 
-<!-- DROPDOWN MENU — lives outside .app to avoid overflow clipping -->
+<!-- =============================================
+     PHASER 3
+     ============================================= -->
 
-<div class="dropdown" id="toolbarMenu">
-  <button class="dropdown-item" onclick="openImportModal();closeMenu()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-    Import JSON
-  </button>
-  <button class="dropdown-item" onclick="exportData();closeMenu()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Export All
-  </button>
-  <div class="dropdown-sep"></div>
-  <button class="dropdown-item" onclick="clearAllData();closeMenu()" style="color:var(--red)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-    Reset All Data
-  </button>
-</div>
-
-<!-- IMPORT MODAL -->
-
-<div class="modal-overlay" id="importOverlay" onclick="if(event.target===this)closeImportModal()"></div>
-<div class="modal-sheet" id="importSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div class="sheet-title">Import Data</div>
-    <button class="sheet-close" onclick="closeImportModal()">&times;</button>
-  </div>
-  <div class="sheet-body">
-    <p class="import-hint">Paste a JSON array. Each entry needs <b>name</b>, <b>id</b>, <b>moves</b>. Optional: <b>habitat</b>, <b>personality</b>.</p>
-    <pre class="import-pre">[{"name":"Pikachu","id":25,
-  "moves":["Shoot(Spark)"],
-  "habitat":"Meadow",
-  "personality":"Bold"}]</pre>
-    <div class="field">
-      <textarea class="field-input" id="importTA" rows="6" placeholder="Paste JSON here..."></textarea>
-      <div class="import-error" id="importErr"></div>
-    </div>
-  </div>
-  <div class="sheet-footer">
-    <button class="btn" onclick="closeImportModal()">Cancel</button>
-    <button class="btn btn-accent" onclick="doImport()">Import</button>
-  </div>
-</div>
-
-<!-- DETAIL MODAL -->
-
-<div class="modal-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()"></div>
-<div class="modal-sheet wide" id="detailSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div class="sheet-title" id="detailTitle">Pok&eacute;mon</div>
-    <button class="sheet-close" onclick="closeDetail()">&times;</button>
-  </div>
-  <div class="sheet-body" id="detailBody"></div>
-</div>
-
-<!-- NOTES MODAL -->
-
-<div class="modal-overlay" id="notesOverlay" onclick="if(event.target===this)closeNotes()"></div>
-<div class="modal-sheet wide" id="notesSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div class="sheet-title">Action Notes</div>
-    <button class="sheet-close" onclick="closeNotes()">&times;</button>
-  </div>
-  <div class="sheet-body" id="notesBody"></div>
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js"></script>
 
 <script>
-/* =============================================================
-   DATA MODEL
-   ============================================================= */
-const App = {
+/* =================================================
+   SANDBOX CORE
+   ================================================= */
+
+// ── Default tabs ──────────────────────────────────
+const DEFAULT_TABS = [
+  { id: 'pokemon',  label: 'POKEMON',  color: '#ff4081' },
+  { id: 'moves',    label: 'MOVES',    color: '#76ff03' },
+  { id: 'weather',  label: 'WEATHER',  color: '#00e5ff' },
+  { id: 'player',   label: 'PLAYER',   color: '#ffd740' },
+  { id: 'loot',     label: 'LOOT',     color: '#e040fb' },
+  { id: 'biomes',   label: 'BIOMES',   color: '#ff6e40' },
+];
+
+const LS_PREFIX_CODE = 'sandbox_code_';
+const LS_PREFIX_DATA = 'sandbox_data_';
+const LS_TABS        = 'sandbox_tabs';
+
+// ── State ─────────────────────────────────────────
+let tabs        = [];
+let activeTabId = null;
+let editorMode  = 'js'; // 'js' | 'json'
+let phaserGame  = null;
+let activeScene = null;
+
+/* =================================================
+   SHARED GAME STATE (accessible from snippets)
+   ================================================= */
+window.gameState = {
+  player:  { x: 400, y: 300, hp: 100, name: 'Trainer' },
+  world:   { time: 0, weather: 'clear', biome: 'beach' },
   pokemon: [],
-  moveEdits: {},
-  actionNotes: {},
-  metaEdits: {},
-  filters: { search: '', habitat: null, personality: null }
+  loot:    [],
 };
 
-/* =============================================================
-   STORAGE
-   ============================================================= */
-const Store = {
-  K: { P:'mf2_pokemon', E:'mf2_edits', N:'mf2_notes', M:'mf2_meta' },
-  load() {
+/* =================================================
+   SANDBOX API (exposed to user snippets)
+   ================================================= */
+window.SandboxAPI = {
+  /** Store JSON data under a key */
+  setData(key, value) {
+    localStorage.setItem(LS_PREFIX_DATA + key, JSON.stringify(value));
+    log(`DATA SET: ${key}`, 'ok');
+    refreshDataKeys();
+    refreshStorageDrawer();
+  },
+  /** Read stored JSON data by key */
+  getData(key) {
+    const raw = localStorage.getItem(LS_PREFIX_DATA + key);
+    if (raw === null) return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  },
+  /** Log to the console panel */
+  log(msg, level = 'info') { log(String(msg), level); },
+  /** Get the active Phaser scene (or null) */
+  getScene() { return activeScene; },
+  /** Shared mutable game state object */
+  get gameState() { return window.gameState; },
+};
+
+/* =================================================
+   LOGGING
+   ================================================= */
+const logEl        = document.getElementById('log-output');
+const logIndicator = document.getElementById('log-indicator');
+let logFlash;
+
+function log(msg, level = 'info') {
+  const ts   = new Date().toLocaleTimeString('en-US', { hour12: false });
+  const line = document.createElement('div');
+  line.className = `log-line ${level}`;
+  line.innerHTML = `<span class="log-ts">${ts}</span>${escapeHtml(msg)}`;
+  logEl.appendChild(line);
+  logEl.scrollTop = logEl.scrollHeight;
+
+  // Flash indicator
+  logIndicator.classList.add('active');
+  clearTimeout(logFlash);
+  logFlash = setTimeout(() => logIndicator.classList.remove('active'), 600);
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+document.getElementById('clear-log-btn').addEventListener('click', () => {
+  logEl.innerHTML = '';
+});
+
+/* =================================================
+   TAB MANAGEMENT
+   ================================================= */
+function loadTabs() {
+  const saved = localStorage.getItem(LS_TABS);
+  if (saved) {
+    try { tabs = JSON.parse(saved); return; } catch { /**/ }
+  }
+  tabs = DEFAULT_TABS.map(t => ({ ...t }));
+  saveTabs();
+}
+
+function saveTabs() {
+  localStorage.setItem(LS_TABS, JSON.stringify(tabs));
+}
+
+function renderTabBar() {
+  const bar = document.getElementById('tab-bar');
+  // Remove all tab buttons (keep add btn)
+  bar.querySelectorAll('.tab-btn').forEach(b => b.remove());
+  const addBtn = document.getElementById('add-tab-btn');
+
+  tabs.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (tab.id === activeTabId ? ' active' : '');
+    const hasCode = !!localStorage.getItem(LS_PREFIX_CODE + tab.id);
+    if (hasCode) btn.classList.add('has-code');
+    btn.dataset.id = tab.id;
+
+    const dot = document.createElement('span');
+    dot.className = 'tab-dot';
+    dot.style.background = tab.color || 'currentColor';
+    btn.appendChild(dot);
+    btn.appendChild(document.createTextNode(tab.label));
+
+    btn.addEventListener('click', () => activateTab(tab.id));
+    bar.insertBefore(btn, addBtn);
+  });
+}
+
+function activateTab(id) {
+  // Save current editor content before switching
+  if (activeTabId) saveCurrentEditor();
+
+  activeTabId = id;
+  const tab = tabs.find(t => t.id === id);
+
+  // Load code for this tab
+  const code = localStorage.getItem(LS_PREFIX_CODE + id) || '';
+  document.getElementById('code-editor').value = code;
+  document.getElementById('active-tab-label').textContent = tab ? tab.label : id;
+  updateCharCount();
+  renderTabBar();
+}
+
+function saveCurrentEditor() {
+  if (!activeTabId) return;
+  const code = document.getElementById('code-editor').value;
+  localStorage.setItem(LS_PREFIX_CODE + activeTabId, code);
+  renderTabBar(); // update dot state
+}
+
+/* =================================================
+   ADD TAB MODAL
+   ================================================= */
+document.getElementById('add-tab-btn').addEventListener('click', () => {
+  document.getElementById('new-tab-name').value = '';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('new-tab-name').focus();
+});
+
+document.getElementById('modal-cancel').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+document.getElementById('modal-ok').addEventListener('click', createTab);
+document.getElementById('new-tab-name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') createTab();
+  if (e.key === 'Escape') closeModal();
+});
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function createTab() {
+  const name = document.getElementById('new-tab-name').value.trim();
+  if (!name) return;
+  const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  if (!id || tabs.find(t => t.id === id)) {
+    log(`Tab "${id}" already exists or invalid name`, 'warn');
+    closeModal();
+    return;
+  }
+  const COLORS = ['#ff4081','#76ff03','#00e5ff','#ffd740','#e040fb','#ff6e40','#40c4ff','#b2ff59'];
+  const color  = COLORS[tabs.length % COLORS.length];
+  tabs.push({ id, label: name.toUpperCase(), color });
+  saveTabs();
+  closeModal();
+  activateTab(id);
+  log(`New tab created: ${name}`, 'ok');
+}
+
+/* =================================================
+   EDITOR MODE TOGGLE
+   ================================================= */
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    editorMode = btn.dataset.mode;
+    const editor = document.getElementById('code-editor');
+    if (editorMode === 'json') {
+      editor.placeholder = '{\n  "pokemon": [{"name":"Bulbasaur","hp":45}]\n}';
+    } else {
+      editor.placeholder = '// JavaScript — use SandboxAPI, gameState, scene\n// SandboxAPI.log("hello world")';
+    }
+  });
+});
+
+/* ── char counter ── */
+document.getElementById('code-editor').addEventListener('input', updateCharCount);
+function updateCharCount() {
+  const n = document.getElementById('code-editor').value.length;
+  document.getElementById('char-count').textContent = n + ' chars';
+}
+
+/* ── clear editor ── */
+document.getElementById('clear-btn').addEventListener('click', () => {
+  document.getElementById('code-editor').value = '';
+  updateCharCount();
+});
+
+/* =================================================
+   RUN BUTTON
+   ================================================= */
+document.getElementById('run-btn').addEventListener('click', runCode);
+
+function runCode() {
+  saveCurrentEditor();
+  const code = document.getElementById('code-editor').value.trim();
+  if (!code) { log('Editor is empty', 'warn'); return; }
+
+  if (editorMode === 'json') {
+    // JSON mode: store under active tab key
     try {
-      const p = localStorage.getItem(this.K.P); if (p) App.pokemon = JSON.parse(p);
-      const e = localStorage.getItem(this.K.E); if (e) App.moveEdits = JSON.parse(e);
-      const n = localStorage.getItem(this.K.N); if (n) App.actionNotes = JSON.parse(n);
-      const m = localStorage.getItem(this.K.M); if (m) App.metaEdits = JSON.parse(m);
-    } catch (e) { console.error('[Store]', e); }
-  },
-  savePokemon() { try { localStorage.setItem(this.K.P, JSON.stringify(App.pokemon)); } catch(e){} },
-  saveEdits()   { try { localStorage.setItem(this.K.E, JSON.stringify(App.moveEdits)); } catch(e){} },
-  saveNotes()   { try { localStorage.setItem(this.K.N, JSON.stringify(App.actionNotes)); } catch(e){} },
-  saveMeta()    { try { localStorage.setItem(this.K.M, JSON.stringify(App.metaEdits)); } catch(e){} },
-  clearAll()    { Object.values(this.K).forEach(k => localStorage.removeItem(k)); }
-};
-
-/* =============================================================
-   MOVE PARSER
-   ============================================================= */
-const Parser = {
-  MOD_PAT: [
-    /^(light|medium|heavy|ultra)$/i,
-    /^x\d+$/i,
-    /^(fast|slow|charged|split)$/i,
-    /^(aoe|self|ally|random)$/i
-  ],
-  parse(raw) {
-    if (!raw || !raw.trim()) return { action: '', param: null, modifiers: [], raw: raw || '' };
-    const t = raw.trim();
-    let action = '', param = null, modifiers = [];
-    const pm = t.match(/^(.+?)\(([^)]*)\)\s*$/);
-    let prefix;
-    if (pm) { prefix = pm[1].trim(); param = pm[2].trim() || null; }
-    else { prefix = t; }
-    const toks = prefix.split(/\s+/);
-    if (toks.length === 1) { action = toks[0]; }
-    else {
-      let ap = [], hit = false;
-      for (const tk of toks) {
-        if (!hit && !this._isMod(tk)) ap.push(tk);
-        else { hit = true; if (this._isMod(tk)) modifiers.push(tk.toLowerCase()); else ap.push(tk); }
-      }
-      action = ap.join(' ');
+      const parsed = JSON.parse(code);
+      SandboxAPI.setData(activeTabId, parsed);
+      log(`JSON stored under key: ${activeTabId}`, 'ok');
+    } catch (err) {
+      log('JSON parse error: ' + err.message, 'error');
     }
-    return { action, param, modifiers, raw: t };
-  },
-  _isMod(tk) { return this.MOD_PAT.some(p => p.test(tk)); },
-  actionKey(raw) { return this.parse(raw).action.toLowerCase(); }
-};
-
-/* =============================================================
-   AUTOCOMPLETE
-   ============================================================= */
-const AC = {
-  gather() {
-    const actions = new Set(), full = new Set();
-    for (const p of App.pokemon) {
-      const moves = getMoves(p.name);
-      for (const m of moves) {
-        if (!m || !m.trim()) continue;
-        const parsed = Parser.parse(m);
-        if (parsed.action) actions.add(parsed.action);
-        full.add(m.trim());
-      }
-    }
-    return { actions: [...actions].sort(), full: [...full].sort() };
-  },
-  suggest(q) {
-    if (!q || q.length < 1) return [];
-    const ql = q.toLowerCase();
-    const { actions, full } = this.gather();
-    const r = [];
-    for (const f of full) {
-      if (f.toLowerCase().includes(ql) && f.toLowerCase() !== ql) r.push({ text: f, type: 'move' });
-      if (r.length >= 6) break;
-    }
-    for (const a of actions) {
-      if (a.toLowerCase().startsWith(ql) && !r.some(x => x.text === a)) r.push({ text: a, type: 'action' });
-      if (r.length >= 10) break;
-    }
-    return r;
-  }
-};
-
-/* =============================================================
-   HELPERS
-   ============================================================= */
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-function spriteUrl(id) { return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + id + '.png'; }
-function getMoves(name) { return App.moveEdits[name] || (App.pokemon.find(p => p.name === name) || {}).moves || []; }
-
-function getMeta(name) {
-  const base = App.pokemon.find(p => p.name === name) || {};
-  const edits = App.metaEdits[name] || {};
-  return {
-    habitat: edits.habitat !== undefined ? edits.habitat : (base.habitat || ''),
-    personality: edits.personality !== undefined ? edits.personality : (base.personality || '')
-  };
-}
-
-function setMeta(name, field, val) {
-  if (!App.metaEdits[name]) App.metaEdits[name] = {};
-  App.metaEdits[name][field] = val;
-  Store.saveMeta();
-}
-
-function allHabitats() {
-  const s = new Set();
-  App.pokemon.forEach(p => { const h = getMeta(p.name).habitat; if (h) s.add(h); });
-  return [...s].sort();
-}
-
-function allPersonalities() {
-  const s = new Set();
-  App.pokemon.forEach(p => { const pe = getMeta(p.name).personality; if (pe) s.add(pe); });
-  return [...s].sort();
-}
-
-function findUsages(actionKey) {
-  const r = [];
-  for (const p of App.pokemon) {
-    const moves = getMoves(p.name);
-    for (const m of moves) {
-      if (Parser.actionKey(m) === actionKey) r.push({ name: p.name, id: p.id, move: m });
-    }
-  }
-  return r;
-}
-
-/* =============================================================
-   TOOLBAR DROPDOWN — fixed position, outside .app, no double-fire
-   ============================================================= */
-(function initMenu() {
-  var btn = document.getElementById('menuBtn');
-  var menu = document.getElementById('toolbarMenu');
-  if (!btn || !menu) return;
-
-  var justTouched = false;
-
-  btn.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    justTouched = true;
-    menu.classList.toggle('open');
-    setTimeout(function() { justTouched = false; }, 300);
-  });
-
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (justTouched) return;
-    menu.classList.toggle('open');
-  });
-
-  document.addEventListener('click', function(e) {
-    if (!btn.contains(e.target) && !menu.contains(e.target)) {
-      menu.classList.remove('open');
-    }
-  });
-})();
-
-function closeMenu() { document.getElementById('toolbarMenu').classList.remove('open'); }
-
-/* =============================================================
-   FILTERS
-   ============================================================= */
-function setFilterHabitat(h) {
-  App.filters.habitat = (App.filters.habitat === h) ? null : h;
-  applyFilters();
-}
-
-function setFilterPersonality(p) {
-  App.filters.personality = (App.filters.personality === p) ? null : p;
-  applyFilters();
-}
-
-function clearFilter(type) {
-  App.filters[type] = null;
-  applyFilters();
-}
-
-function renderFilterChips() {
-  const bar = document.getElementById('filterBar');
-  const search = bar.querySelector('.search-wrap');
-  bar.innerHTML = '';
-  bar.appendChild(search);
-  if (App.filters.habitat) {
-    const c = document.createElement('span');
-    c.className = 'filter-chip active';
-    c.innerHTML = '\u{1F3E0} ' + esc(App.filters.habitat) + ' <span class="chip-x" onclick="event.stopPropagation();clearFilter(\'habitat\')">\u2715</span>';
-    bar.appendChild(c);
-  }
-  if (App.filters.personality) {
-    const c = document.createElement('span');
-    c.className = 'filter-chip active';
-    c.innerHTML = '\u2728 ' + esc(App.filters.personality) + ' <span class="chip-x" onclick="event.stopPropagation();clearFilter(\'personality\')">\u2715</span>';
-    bar.appendChild(c);
-  }
-}
-
-function applyFilters() {
-  App.filters.search = document.getElementById('searchInput').value.toLowerCase();
-  renderFilterChips();
-  renderList();
-}
-
-/* =============================================================
-   MAIN LIST
-   ============================================================= */
-function renderList() {
-  const c = document.getElementById('mainScroll');
-  const empty = document.getElementById('emptyState');
-
-  if (!App.pokemon.length) {
-    c.innerHTML = '';
-    c.appendChild(empty);
-    empty.style.display = '';
-    document.getElementById('fabRow').style.display = 'none';
-    updateStats();
-    return;
-  }
-  document.getElementById('fabRow').style.display = '';
-  empty.style.display = 'none';
-
-  let filtered = App.pokemon;
-  if (App.filters.search) {
-    const q = App.filters.search;
-    filtered = filtered.filter(p => {
-      if (p.name.toLowerCase().includes(q)) return true;
-      const moves = getMoves(p.name);
-      return moves.some(m => m.toLowerCase().includes(q));
-    });
-  }
-  if (App.filters.habitat) {
-    filtered = filtered.filter(p => getMeta(p.name).habitat === App.filters.habitat);
-  }
-  if (App.filters.personality) {
-    filtered = filtered.filter(p => getMeta(p.name).personality === App.filters.personality);
-  }
-
-  if (!filtered.length) {
-    c.innerHTML = '<div class="empty"><div class="empty-text">No matches.</div></div>';
-    updateStats();
     return;
   }
 
-  const fallbackSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Ctext y='32' x='8' font-size='28'%3E%3F%3C/text%3E%3C/svg%3E";
-
-  c.innerHTML = filtered.map(p => {
-    const meta = getMeta(p.name);
-    const moves = getMoves(p.name);
-    const moveCount = moves.filter(m => m).length;
-    const safeName = esc(p.name).replace(/'/g, "\\'");
-    return '<div class="pkmn-row" onclick="openDetail(\'' + safeName + '\')">'
-      + '<img class="pkmn-sprite" src="' + spriteUrl(p.id) + '" alt="' + esc(p.name) + '" loading="lazy" onerror="this.src=\'' + fallbackSvg + '\'">'
-      + '<div class="pkmn-info">'
-      + '<div class="pkmn-name">' + esc(p.name) + '</div>'
-      + '<div class="pkmn-sub">'
-      + (meta.habitat ? '<span class="pkmn-badge b-habitat" onclick="event.stopPropagation();setFilterHabitat(\'' + esc(meta.habitat).replace(/'/g, "\\'") + '\')">' + esc(meta.habitat) + '</span>' : '')
-      + (meta.personality ? '<span class="pkmn-badge b-personality" onclick="event.stopPropagation();setFilterPersonality(\'' + esc(meta.personality).replace(/'/g, "\\'") + '\')">' + esc(meta.personality) + '</span>' : '')
-      + '<span class="pkmn-badge b-moves">' + moveCount + ' move' + (moveCount !== 1 ? 's' : '') + '</span>'
-      + '</div></div>'
-      + '<span class="pkmn-id">#' + p.id + '</span>'
-      + '<span class="pkmn-row-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></span>'
-      + '</div>';
-  }).join('');
-
-  updateStats();
-}
-
-function updateStats() {
-  document.getElementById('sStat').textContent = App.pokemon.length;
-  const acts = new Set();
-  App.pokemon.forEach(p => getMoves(p.name).forEach(m => { const k = Parser.actionKey(m); if (k) acts.add(k); }));
-  document.getElementById('aStat').textContent = acts.size;
-  document.getElementById('nStat').textContent = Object.values(App.actionNotes).filter(n => n && n.trim()).length;
-}
-
-/* =============================================================
-   MODAL HELPERS
-   ============================================================= */
-function openSheet(oid, sid) {
-  document.getElementById(oid).classList.add('open');
-  document.getElementById(sid).classList.add('open');
-}
-
-function closeSheet(oid, sid) {
-  document.getElementById(oid).classList.remove('open');
-  document.getElementById(sid).classList.remove('open');
-}
-
-/* =============================================================
-   IMPORT
-   ============================================================= */
-function openImportModal() {
-  document.getElementById('importTA').value = '';
-  document.getElementById('importErr').textContent = '';
-  openSheet('importOverlay', 'importSheet');
-  setTimeout(() => document.getElementById('importTA').focus(), 300);
-}
-
-function closeImportModal() { closeSheet('importOverlay', 'importSheet'); }
-
-function doImport() {
-  const raw = document.getElementById('importTA').value.trim();
-  const err = document.getElementById('importErr');
-  err.textContent = '';
-  if (!raw) { err.textContent = 'Paste JSON data.'; return; }
-  let data;
-  try { data = JSON.parse(raw); } catch (e) { err.textContent = 'JSON error: ' + e.message; return; }
-  if (!Array.isArray(data)) { err.textContent = 'Must be a JSON array.'; return; }
-
-  const valid = [];
-  for (let i = 0; i < data.length; i++) {
-    const e = data[i];
-    if (!e.name || typeof e.name !== 'string') { err.textContent = '#' + i + ': missing "name".'; return; }
-    if (e.id == null || typeof e.id !== 'number') { err.textContent = '#' + i + ' (' + e.name + '): "id" must be number.'; return; }
-    if (!Array.isArray(e.moves)) { err.textContent = '#' + i + ' (' + e.name + '): "moves" must be array.'; return; }
-    valid.push({
-      name: e.name.trim(),
-      id: Math.floor(e.id),
-      moves: e.moves.map(m => typeof m === 'string' ? m.trim() : '').slice(0, 6),
-      habitat: typeof e.habitat === 'string' ? e.habitat.trim() : '',
-      personality: typeof e.personality === 'string' ? e.personality.trim() : ''
-    });
+  // JS mode: execute snippet
+  log(`Running [${activeTabId}]…`, 'info');
+  try {
+    // Inject helpful locals into snippet scope
+    const scene = activeScene;
+    // eslint-disable-next-line no-new-func
+    const fn = new Function(
+      'scene', 'gameState', 'SandboxAPI', 'Phaser',
+      code
+    );
+    fn(scene, window.gameState, window.SandboxAPI, window.Phaser);
+    log(`[${activeTabId}] executed OK`, 'ok');
+  } catch (err) {
+    log('Runtime error: ' + err.message, 'error');
+    console.error(err);
   }
-  if (!valid.length) { err.textContent = 'No valid entries.'; return; }
 
-  const map = {};
-  App.pokemon.forEach(p => { map[p.name] = p; });
-  valid.forEach(v => { map[v.name] = v; });
-  App.pokemon = Object.values(map).sort((a, b) => a.id - b.id);
-
-  Store.savePokemon();
-  closeImportModal();
-  applyFilters();
+  // Show canvas if hidden
+  document.getElementById('idle-msg').style.display = 'none';
+  document.getElementById('scene-label').textContent = `SCENE · ${activeTabId}`;
 }
 
-function exportData() {
-  const payload = {
-    pokemon: App.pokemon.map(p => {
-      const meta = getMeta(p.name);
-      const moves = getMoves(p.name);
-      return { name: p.name, id: p.id, moves: moves, habitat: meta.habitat, personality: meta.personality };
-    }),
-    actionNotes: App.actionNotes,
-    exportedAt: new Date().toISOString()
-  };
+/* =================================================
+   JSON DATA PANEL
+   ================================================= */
+const dpHeader = document.getElementById('data-panel-header');
+const dpBody   = document.getElementById('data-panel-body');
+
+dpHeader.addEventListener('click', () => {
+  dpHeader.classList.toggle('open');
+  dpBody.classList.toggle('open');
+});
+
+document.getElementById('json-load-btn').addEventListener('click', () => {
+  const raw = document.getElementById('json-input').value.trim();
+  const statusEl = document.getElementById('json-status');
+  if (!raw) { statusEl.textContent = 'Paste JSON first.'; return; }
+  try {
+    const parsed = JSON.parse(raw);
+    // Store each top-level key separately
+    let count = 0;
+    if (typeof parsed === 'object' && !Array.isArray(parsed)) {
+      Object.entries(parsed).forEach(([k, v]) => {
+        SandboxAPI.setData(k, v);
+        count++;
+      });
+      statusEl.textContent = `✓ Loaded ${count} key(s)`;
+    } else {
+      // Store whole thing under 'data'
+      SandboxAPI.setData('data', parsed);
+      statusEl.textContent = '✓ Loaded as "data"';
+    }
+    refreshDataKeys();
+  } catch (err) {
+    statusEl.textContent = '✗ ' + err.message;
+  }
+});
+
+function refreshDataKeys() {
+  const keys = Object.keys(localStorage)
+    .filter(k => k.startsWith(LS_PREFIX_DATA))
+    .map(k => k.replace(LS_PREFIX_DATA, ''));
+  document.getElementById('dp-key-list').textContent =
+    keys.length ? keys.join(', ') : 'empty';
+}
+
+/* =================================================
+   STORAGE DRAWER
+   ================================================= */
+const storageHeader = document.getElementById('storage-header');
+const storageBody   = document.getElementById('storage-body');
+
+storageHeader.addEventListener('click', () => {
+  storageHeader.classList.toggle('open');
+  storageBody.classList.toggle('open');
+  if (storageBody.classList.contains('open')) refreshStorageDrawer();
+});
+
+function refreshStorageDrawer() {
+  storageBody.innerHTML = '';
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('sandbox_'));
+  if (!keys.length) {
+    storageBody.innerHTML = '<span style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim)">No sandbox keys stored.</span>';
+    return;
+  }
+  keys.sort().forEach(key => {
+    const chip  = document.createElement('div');
+    chip.className = 'storage-chip';
+    const raw   = localStorage.getItem(key);
+    const bytes = new Blob([raw]).size;
+    const label = key.replace('sandbox_code_', '📄 ').replace('sandbox_data_', '🗄 ').replace('sandbox_tabs', '🗂 tabs');
+    chip.innerHTML = `<span class="chip-key">${escapeHtml(label)}</span><span>${bytes}B</span>`;
+    const del = document.createElement('button');
+    del.className = 'chip-del';
+    del.textContent = '✕';
+    del.title = 'Delete ' + key;
+    del.addEventListener('click', () => {
+      localStorage.removeItem(key);
+      log(`Deleted: ${key}`, 'warn');
+      refreshStorageDrawer();
+      refreshDataKeys();
+    });
+    chip.appendChild(del);
+    storageBody.appendChild(chip);
+  });
+}
+
+/* =================================================
+   EXPORT / IMPORT
+   ================================================= */
+document.getElementById('export-btn').addEventListener('click', () => {
+  const payload = {};
+  Object.keys(localStorage).filter(k => k.startsWith('sandbox_')).forEach(k => {
+    payload[k] = localStorage.getItem(k);
+  });
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
   a.href = url;
-  a.download = 'moveforge-' + Date.now() + '.json';
+  a.download = 'sandbox-export.json';
   a.click();
   URL.revokeObjectURL(url);
-}
-
-function clearAllData() {
-  if (!confirm('Clear ALL data? Cannot undo.')) return;
-  Store.clearAll();
-  App.pokemon = [];
-  App.moveEdits = {};
-  App.actionNotes = {};
-  App.metaEdits = {};
-  App.filters = { search: '', habitat: null, personality: null };
-  document.getElementById('searchInput').value = '';
-  applyFilters();
-}
-
-/* =============================================================
-   DETAIL MODAL
-   ============================================================= */
-let currentDetail = null;
-
-function openDetail(name) {
-  currentDetail = name;
-  const p = App.pokemon.find(x => x.name === name);
-  if (!p) return;
-  document.getElementById('detailTitle').textContent = p.name;
-  renderDetailBody();
-  openSheet('detailOverlay', 'detailSheet');
-}
-
-function closeDetail() {
-  closeSheet('detailOverlay', 'detailSheet');
-  currentDetail = null;
-  renderList();
-}
-
-function renderDetailBody() {
-  const name = currentDetail;
-  const p = App.pokemon.find(x => x.name === name);
-  if (!p) return;
-  const meta = getMeta(name);
-  const moves = getMoves(name);
-  const body = document.getElementById('detailBody');
-  const safeName = esc(name).replace(/'/g, "\\'");
-
-  const fallbackSvg72 = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Ctext y='50' x='16' font-size='40'%3E%3F%3C/text%3E%3C/svg%3E";
-
-  body.innerHTML = '<div class="detail-header">'
-    + '<img class="detail-sprite" src="' + spriteUrl(p.id) + '" alt="' + esc(p.name) + '" onerror="this.src=\'' + fallbackSvg72 + '\'">'
-    + '<div>'
-    + '<div class="detail-name">' + esc(p.name) + '</div>'
-    + '<div class="detail-id">#' + p.id + '</div>'
-    + '<div class="detail-badges" id="detailBadges">'
-    + (meta.habitat ? '<span class="pkmn-badge b-habitat">' + esc(meta.habitat) + '</span>' : '<span class="pkmn-badge" style="opacity:.4">No habitat</span>')
-    + (meta.personality ? '<span class="pkmn-badge b-personality">' + esc(meta.personality) + '</span>' : '<span class="pkmn-badge" style="opacity:.4">No personality</span>')
-    + '</div></div></div>'
-
-    + '<div class="section">'
-    + '<button class="section-toggle" onclick="toggleSection(this)">'
-    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
-    + 'Profile</button>'
-    + '<div class="section-body">'
-    + '<div class="field"><label class="field-label">Habitat</label>'
-    + '<input class="field-input" value="' + esc(meta.habitat) + '" placeholder="e.g. Forest, Cave, Shore..."'
-    + ' oninput="setMeta(\'' + safeName + '\',\'habitat\',this.value);refreshBadges()" list="dlHab">'
-    + '<datalist id="dlHab">' + allHabitats().map(h => '<option value="' + esc(h) + '">').join('') + '</datalist></div>'
-    + '<div class="field"><label class="field-label">Personality</label>'
-    + '<input class="field-input" value="' + esc(meta.personality) + '" placeholder="e.g. Timid, Bold, Jolly..."'
-    + ' oninput="setMeta(\'' + safeName + '\',\'personality\',this.value);refreshBadges()" list="dlPers">'
-    + '<datalist id="dlPers">' + allPersonalities().map(pe => '<option value="' + esc(pe) + '">').join('') + '</datalist></div>'
-    + '</div></div>'
-
-    + '<div class="section">'
-    + '<button class="section-toggle expanded" onclick="toggleSection(this)">'
-    + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>'
-    + 'Moves <span class="count">' + moves.filter(m => m).length + '</span></button>'
-    + '<div class="section-body expanded" id="detailMoves"></div></div>';
-
-  renderDetailMoves();
-}
-
-function refreshBadges() {
-  if (!currentDetail) return;
-  const meta = getMeta(currentDetail);
-  const el = document.getElementById('detailBadges');
-  if (!el) return;
-  el.innerHTML = (meta.habitat ? '<span class="pkmn-badge b-habitat">' + esc(meta.habitat) + '</span>' : '<span class="pkmn-badge" style="opacity:.4">No habitat</span>')
-    + (meta.personality ? '<span class="pkmn-badge b-personality">' + esc(meta.personality) + '</span>' : '<span class="pkmn-badge" style="opacity:.4">No personality</span>');
-}
-
-function renderDetailMoves() {
-  const name = currentDetail;
-  if (!name) return;
-  const moves = getMoves(name);
-  const container = document.getElementById('detailMoves');
-  if (!container) return;
-
-  let html = '';
-  for (let i = 0; i < moves.length; i++) {
-    const m = moves[i];
-    const parsed = Parser.parse(m);
-    const aKey = parsed.action.toLowerCase();
-    const hasNotes = aKey && App.actionNotes[aKey];
-    html += '<div class="move-card"><div class="move-card-top">'
-      + '<span class="move-slot-num">' + (i + 1) + '</span>'
-      + '<div class="move-tags">'
-      + (parsed.action ? '<span class="mtag mtag-action">' + esc(parsed.action) + '</span>' : '')
-      + parsed.modifiers.map(md => '<span class="mtag mtag-mod">' + esc(md) + '</span>').join('')
-      + (parsed.param ? '<span class="mtag mtag-param">' + esc(parsed.param) + '</span>' : '')
-      + '</div></div>'
-      + '<div class="move-card-input-row">'
-      + '<div class="autocomplete-wrapper">'
-      + '<input class="move-card-input" value="' + esc(m) + '" data-slot="' + i + '"'
-      + ' oninput="onSlotInput(this,' + i + ')"'
-      + ' onkeydown="onSlotKey(event,' + i + ')"'
-      + ' onfocus="onSlotFocus(this,' + i + ')"'
-      + ' onblur="onSlotBlur(' + i + ')"'
-      + ' placeholder="Action(Param)">'
-      + '<div class="ac-drop" id="acd-' + i + '"></div></div>'
-      + '<button class="move-notes-btn ' + (hasNotes ? 'has-notes' : '') + '" onclick="openNotesFor(' + i + ')" title="Action notes">'
-      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>'
-      + '</button></div></div>';
-  }
-  if (moves.length < 6) {
-    html += '<button class="add-slot-btn" onclick="addSlot()">+ Add move slot</button>';
-  }
-  container.innerHTML = html;
-}
-
-function toggleSection(btn) {
-  btn.classList.toggle('expanded');
-  btn.nextElementSibling.classList.toggle('expanded');
-}
-
-/* =============================================================
-   MOVE SLOT HANDLERS
-   ============================================================= */
-let acHL = -1;
-
-function onSlotInput(input, idx) {
-  const val = input.value;
-  const moves = getMoves(currentDetail);
-  moves[idx] = val;
-  App.moveEdits[currentDetail] = moves;
-  Store.saveEdits();
-
-  const card = input.closest('.move-card');
-  const parsed = Parser.parse(val);
-  card.querySelector('.move-tags').innerHTML =
-    (parsed.action ? '<span class="mtag mtag-action">' + esc(parsed.action) + '</span>' : '')
-    + parsed.modifiers.map(md => '<span class="mtag mtag-mod">' + esc(md) + '</span>').join('')
-    + (parsed.param ? '<span class="mtag mtag-param">' + esc(parsed.param) + '</span>' : '');
-
-  const countEl = document.querySelector('.section-toggle .count');
-  if (countEl) countEl.textContent = moves.filter(m => m).length;
-  showAC(idx, val);
-  updateStats();
-}
-
-function onSlotKey(e, idx) {
-  const drop = document.getElementById('acd-' + idx);
-  const items = drop.querySelectorAll('.ac-item');
-  if (e.key === 'ArrowDown') { e.preventDefault(); acHL = Math.min(acHL + 1, items.length - 1); hlAC(items); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); acHL = Math.max(acHL - 1, 0); hlAC(items); }
-  else if (e.key === 'Enter' && acHL >= 0 && items[acHL]) { e.preventDefault(); pickAC(idx, items[acHL].dataset.text); }
-  else if (e.key === 'Escape') hideAC(idx);
-}
-
-function onSlotFocus(input, idx) { if (input.value.length >= 1) showAC(idx, input.value); }
-function onSlotBlur(idx) { setTimeout(() => hideAC(idx), 200); }
-
-function showAC(idx, q) {
-  const drop = document.getElementById('acd-' + idx);
-  const sugg = AC.suggest(q);
-  acHL = -1;
-  if (!sugg.length) { drop.classList.remove('open'); return; }
-  drop.innerHTML = sugg.map(s => {
-    const safeText = esc(s.text).replace(/'/g, "\\'");
-    return '<div class="ac-item" data-text="' + esc(s.text) + '" onmousedown="pickAC(' + idx + ',\'' + safeText + '\')">'
-      + '<span class="ac-badge ' + (s.type === 'action' ? 'ac-badge-act' : 'ac-badge-mv') + '">' + (s.type === 'action' ? 'ACT' : 'MOVE') + '</span>'
-      + esc(s.text) + '</div>';
-  }).join('');
-  drop.classList.add('open');
-}
-
-function hideAC(idx) { document.getElementById('acd-' + idx).classList.remove('open'); }
-
-function pickAC(idx, text) {
-  const input = document.querySelector('.move-card-input[data-slot="' + idx + '"]');
-  if (!input) return;
-  input.value = text;
-  onSlotInput(input, idx);
-  hideAC(idx);
-  input.focus();
-}
-
-function hlAC(items) { items.forEach((el, i) => el.classList.toggle('hl', i === acHL)); }
-
-function addSlot() {
-  if (!currentDetail) return;
-  const moves = getMoves(currentDetail);
-  if (moves.length >= 6) return;
-  moves.push('');
-  App.moveEdits[currentDetail] = moves;
-  Store.saveEdits();
-  renderDetailMoves();
-}
-
-/* =============================================================
-   NOTES MODAL
-   ============================================================= */
-let currentAction = null;
-let notesTimer = null;
-
-function openNotesFor(slotIdx) {
-  const moves = getMoves(currentDetail);
-  const m = moves[slotIdx];
-  if (!m || !m.trim()) return;
-  const parsed = Parser.parse(m);
-  if (!parsed.action) return;
-  currentAction = parsed.action.toLowerCase();
-  renderNotesBody();
-  openSheet('notesOverlay', 'notesSheet');
-}
-
-function closeNotes() {
-  closeSheet('notesOverlay', 'notesSheet');
-  currentAction = null;
-  if (currentDetail) renderDetailMoves();
-}
-
-function renderNotesBody() {
-  if (!currentAction) return;
-  const usages = findUsages(currentAction);
-  const displayName = usages.length ? Parser.parse(usages[0].move).action : currentAction;
-  const notes = App.actionNotes[currentAction] || '';
-  const body = document.getElementById('notesBody');
-
-  let html = '<div class="notes-action-title">' + esc(displayName) + '</div>'
-    + '<div class="notes-action-count">' + usages.length + ' Pok\u00E9mon use this action</div>'
-    + '<div class="usage-grid">';
-
-  for (const u of usages) {
-    const safeName = esc(u.name).replace(/'/g, "\\'");
-    html += '<div class="usage-card" onclick="closeNotes();closeDetail();setTimeout(function(){openDetail(\'' + safeName + '\')},300)">'
-      + '<img src="' + spriteUrl(u.id) + '" alt="' + esc(u.name) + '">'
-      + '<div class="usage-card-info">'
-      + '<div class="usage-card-name">' + esc(u.name) + '</div>'
-      + '<div class="usage-card-move">' + esc(u.move) + '</div>'
-      + '</div></div>';
-  }
-
-  html += '</div>'
-    + '<div class="field"><label class="field-label">Design Notes <span id="notesSaveInd" style="margin-left:8px"></span></label>'
-    + '<textarea class="field-input" id="notesTA" rows="5" placeholder="Shared notes for all Pok\u00E9mon using ' + esc(displayName) + '...">' + esc(notes) + '</textarea></div>';
-
-body.innerHTML = html;
-
-document.getElementById(‘notesTA’).addEventListener(‘input’, function() {
-App.actionNotes[currentAction] = this.value;
-clearTimeout(notesTimer);
-document.getElementById(‘notesSaveInd’).textContent = ‘…’;
-document.getElementById(‘notesSaveInd’).style.color = ‘var(–text-3)’;
-notesTimer = setTimeout(function() {
-Store.saveNotes();
-document.getElementById(‘notesSaveInd’).textContent = ‘\u2713 saved’;
-document.getElementById(‘notesSaveInd’).style.color = ‘var(–green)’;
-updateStats();
-}, 500);
-});
-}
-
-/* =============================================================
-KEYBOARD
-============================================================= */
-document.addEventListener(‘keydown’, function(e) {
-if (e.key === ‘Escape’) {
-if (document.getElementById(‘notesSheet’).classList.contains(‘open’)) closeNotes();
-else if (document.getElementById(‘detailSheet’).classList.contains(‘open’)) closeDetail();
-else if (document.getElementById(‘importSheet’).classList.contains(‘open’)) closeImportModal();
-}
+  log('Exported sandbox data', 'ok');
 });
 
-/* =============================================================
-INIT
-============================================================= */
-(function init() {
-Store.load();
-applyFilters();
-})();
+document.getElementById('import-btn').addEventListener('click', () => {
+  document.getElementById('import-file-input').click();
+});
+document.getElementById('import-file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const payload = JSON.parse(ev.target.result);
+      let count = 0;
+      Object.entries(payload).forEach(([k, v]) => {
+        if (k.startsWith('sandbox_')) { localStorage.setItem(k, v); count++; }
+      });
+      log(`Imported ${count} sandbox keys`, 'ok');
+      loadTabs(); renderTabBar();
+      refreshDataKeys(); refreshStorageDrawer();
+    } catch (err) {
+      log('Import failed: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+/* =================================================
+   PHASER 3 GAME
+   ================================================= */
+function initPhaser() {
+  if (phaserGame) { phaserGame.destroy(true); phaserGame = null; activeScene = null; }
+
+  class SandboxScene extends Phaser.Scene {
+    constructor() { super({ key: 'SandboxScene' }); }
+
+    preload() {
+      // nothing by default; snippets can call this.load.image() etc.
+    }
+
+    create() {
+      activeScene = this;
+
+      // Draw a grid background
+      const gfx = this.add.graphics();
+      gfx.lineStyle(1, 0x1e2a3a, 1);
+      const W = this.cameras.main.width;
+      const H = this.cameras.main.height;
+      for (let x = 0; x <= W; x += 32) gfx.lineBetween(x, 0, x, H);
+      for (let y = 0; y <= H; y += 32) gfx.lineBetween(0, y, W, y);
+
+      // Axis marker
+      gfx.lineStyle(1, 0x00e5ff, 0.3);
+      gfx.lineBetween(W/2, 0, W/2, H);
+      gfx.lineBetween(0, H/2, W, H/2);
+
+      // Coords text
+      this.coordText = this.add.text(4, 4, '(0,0)', {
+        fontFamily: 'Courier New',
+        fontSize: '10px',
+        color: '#2a4050'
+      }).setDepth(100);
+
+      // Mouse tracking
+      this.input.on('pointermove', p => {
+        const wx = Math.round(p.worldX);
+        const wy = Math.round(p.worldY);
+        this.coordText.setText(`(${wx},${wy})`);
+      });
+
+      log('Phaser scene ready', 'ok');
+    }
+
+    update(time) {
+      window.gameState.world.time = Math.round(time);
+    }
+  }
+
+  const container = document.getElementById('phaser-container');
+  const wrapper   = document.getElementById('canvas-wrapper');
+  const w = Math.min(wrapper.clientWidth  || 640, 640);
+  const h = Math.min(wrapper.clientHeight || 400, 400);
+
+  phaserGame = new Phaser.Game({
+    type: Phaser.AUTO,
+    width:  w,
+    height: h,
+    backgroundColor: '#05080d',
+    parent: 'phaser-container',
+    scene: [SandboxScene],
+    physics: { default: 'arcade', arcade: { debug: false } },
+    audio: { noAudio: true },
+  });
+}
+
+/* =================================================
+   INIT
+   ================================================= */
+function init() {
+  loadTabs();
+  if (tabs.length > 0) activateTab(tabs[0].id);
+  refreshDataKeys();
+  initPhaser();
+  log('Sandbox ready · Phaser ' + Phaser.VERSION, 'info');
+}
+
+window.addEventListener('load', init);
+
+/* =================================================
+   EXAMPLE SNIPPETS (shown as hints in log)
+   ================================================= */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    log('TIP: SandboxAPI.getData("pokemon") to read stored JSON', 'info');
+    log('TIP: const s = SandboxAPI.getScene(); s.add.text(100,100,"Hi!")', 'info');
+  }, 800);
+});
 </script>
 
 </body>
