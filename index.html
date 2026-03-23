@@ -1,1 +1,1763 @@
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoveForge — Move System Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+   ============================================================ */
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #1c2333;
+  --bg-card: #1a1f2e;
+  --bg-input: #0d1117;
+  --border-primary: #30363d;
+  --border-accent: #f0883e;
+  --border-glow: rgba(240,136,62,0.25);
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #555d68;
+  --accent-orange: #f0883e;
+  --accent-orange-dim: rgba(240,136,62,0.15);
+  --accent-blue: #58a6ff;
+  --accent-green: #3fb950;
+  --accent-red: #f85149;
+  --accent-purple: #bc8cff;
+  --accent-yellow: #d29922;
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(240,136,62,0.1);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --transition-fast: 150ms ease;
+  --transition-med: 250ms ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 15px; }
+
+body {
+font-family: var(–font-body);
+background: var(–bg-primary);
+color: var(–text-primary);
+min-height: 100vh;
+line-height: 1.5;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(–bg-primary); }
+::-webkit-scrollbar-thumb { background: var(–border-primary); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(–text-muted); }
+
+/* ============================================================
+LAYOUT
+============================================================ */
+.app-header {
+background: var(–bg-secondary);
+border-bottom: 1px solid var(–border-primary);
+padding: 12px 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+.app-logo {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.app-logo-icon {
+width: 28px;
+height: 28px;
+background: var(–accent-orange);
+border-radius: var(–radius-sm);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 16px;
+font-weight: 700;
+color: var(–bg-primary);
+font-family: var(–font-mono);
+}
+
+.app-logo-text {
+font-family: var(–font-mono);
+font-weight: 700;
+font-size: 1.1rem;
+color: var(–text-primary);
+letter-spacing: -0.5px;
+}
+
+.app-logo-text span {
+color: var(–text-muted);
+font-weight: 400;
+font-size: 0.75rem;
+margin-left: 8px;
+}
+
+.header-actions {
+display: flex;
+gap: 8px;
+}
+
+.app-container {
+display: grid;
+grid-template-columns: 300px 1fr 380px;
+gap: 0;
+height: calc(100vh - 53px);
+}
+
+/* ============================================================
+LEFT PANEL — POKÉMON SELECTOR
+============================================================ */
+.panel-left {
+background: var(–bg-secondary);
+border-right: 1px solid var(–border-primary);
+display: flex;
+flex-direction: column;
+overflow: hidden;
+}
+
+.panel-header {
+padding: 16px;
+border-bottom: 1px solid var(–border-primary);
+font-family: var(–font-mono);
+font-size: 0.7rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+color: var(–text-muted);
+}
+
+.data-import-section {
+padding: 12px 16px;
+border-bottom: 1px solid var(–border-primary);
+}
+
+.btn {
+font-family: var(–font-mono);
+font-size: 0.75rem;
+font-weight: 600;
+padding: 8px 14px;
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+background: var(–bg-tertiary);
+color: var(–text-primary);
+cursor: pointer;
+transition: all var(–transition-fast);
+display: inline-flex;
+align-items: center;
+gap: 6px;
+min-height: 36px;
+}
+
+.btn:hover {
+border-color: var(–accent-orange);
+background: var(–accent-orange-dim);
+}
+
+.btn-accent {
+background: var(–accent-orange);
+color: var(–bg-primary);
+border-color: var(–accent-orange);
+}
+
+.btn-accent:hover {
+background: #e07a30;
+border-color: #e07a30;
+}
+
+.btn-sm {
+padding: 5px 10px;
+font-size: 0.7rem;
+min-height: 28px;
+}
+
+.btn-block { width: 100%; justify-content: center; }
+
+.pokemon-search {
+padding: 12px 16px;
+}
+
+.search-input {
+width: 100%;
+font-family: var(–font-mono);
+font-size: 0.8rem;
+padding: 8px 12px;
+background: var(–bg-input);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+color: var(–text-primary);
+outline: none;
+transition: border-color var(–transition-fast);
+}
+
+.search-input:focus {
+border-color: var(–accent-orange);
+box-shadow: 0 0 0 3px var(–border-glow);
+}
+
+.search-input::placeholder { color: var(–text-muted); }
+
+.pokemon-list {
+flex: 1;
+overflow-y: auto;
+padding: 4px 8px;
+}
+
+.pokemon-list-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 8px 12px;
+border-radius: var(–radius-sm);
+cursor: pointer;
+transition: all var(–transition-fast);
+border: 1px solid transparent;
+}
+
+.pokemon-list-item:hover {
+background: var(–bg-tertiary);
+}
+
+.pokemon-list-item.active {
+background: var(–accent-orange-dim);
+border-color: var(–accent-orange);
+}
+
+.pokemon-list-item img {
+width: 36px;
+height: 36px;
+image-rendering: pixelated;
+}
+
+.pokemon-list-item .pkmn-name {
+font-family: var(–font-mono);
+font-size: 0.8rem;
+font-weight: 600;
+}
+
+.pokemon-list-item .pkmn-id {
+font-family: var(–font-mono);
+font-size: 0.7rem;
+color: var(–text-muted);
+margin-left: auto;
+}
+
+.empty-state {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 40px 24px;
+text-align: center;
+color: var(–text-muted);
+gap: 12px;
+}
+
+.empty-state-icon {
+font-size: 2.5rem;
+opacity: 0.4;
+}
+
+.empty-state-text {
+font-family: var(–font-mono);
+font-size: 0.8rem;
+line-height: 1.6;
+}
+
+/* ============================================================
+CENTER PANEL — MOVE EDITOR
+============================================================ */
+.panel-center {
+background: var(–bg-primary);
+overflow-y: auto;
+padding: 24px;
+}
+
+.pokemon-card {
+max-width: 640px;
+margin: 0 auto;
+}
+
+.pokemon-card-header {
+display: flex;
+align-items: center;
+gap: 20px;
+margin-bottom: 28px;
+padding-bottom: 20px;
+border-bottom: 1px solid var(–border-primary);
+}
+
+.sprite-frame {
+width: 96px;
+height: 96px;
+background: var(–bg-secondary);
+border: 2px solid var(–border-primary);
+border-radius: var(–radius-md);
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+position: relative;
+overflow: hidden;
+}
+
+.sprite-frame::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: radial-gradient(circle at 30% 30%, rgba(240,136,62,0.08), transparent 60%);
+}
+
+.sprite-frame img {
+width: 80px;
+height: 80px;
+image-rendering: pixelated;
+position: relative;
+z-index: 1;
+}
+
+.pokemon-info h2 {
+font-family: var(–font-mono);
+font-size: 1.4rem;
+font-weight: 700;
+margin-bottom: 4px;
+}
+
+.pokemon-info .pokemon-meta {
+font-family: var(–font-mono);
+font-size: 0.75rem;
+color: var(–text-muted);
+}
+
+/* Move slots */
+.move-slots-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 12px;
+}
+
+.move-slots-title {
+font-family: var(–font-mono);
+font-size: 0.7rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+color: var(–text-muted);
+}
+
+.move-slot {
+background: var(–bg-card);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-md);
+padding: 14px 16px;
+margin-bottom: 10px;
+transition: all var(–transition-fast);
+position: relative;
+}
+
+.move-slot:hover {
+border-color: var(–text-muted);
+}
+
+.move-slot.active-move {
+border-color: var(–accent-orange);
+box-shadow: var(–shadow-glow);
+}
+
+.move-slot-header {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 8px;
+}
+
+.slot-number {
+font-family: var(–font-mono);
+font-size: 0.65rem;
+font-weight: 700;
+color: var(–text-muted);
+background: var(–bg-primary);
+padding: 2px 7px;
+border-radius: var(–radius-sm);
+letter-spacing: 0.5px;
+}
+
+.move-parsed {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+}
+
+.move-tag {
+font-family: var(–font-mono);
+font-size: 0.7rem;
+padding: 2px 8px;
+border-radius: var(–radius-sm);
+border: 1px solid;
+}
+
+.move-tag.tag-action {
+background: rgba(88,166,255,0.1);
+border-color: rgba(88,166,255,0.3);
+color: var(–accent-blue);
+}
+
+.move-tag.tag-param {
+background: rgba(188,140,255,0.1);
+border-color: rgba(188,140,255,0.3);
+color: var(–accent-purple);
+}
+
+.move-tag.tag-modifier {
+background: rgba(210,153,34,0.1);
+border-color: rgba(210,153,34,0.3);
+color: var(–accent-yellow);
+}
+
+.move-input-row {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.move-input {
+flex: 1;
+font-family: var(–font-mono);
+font-size: 0.85rem;
+padding: 8px 12px;
+background: var(–bg-input);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+color: var(–text-primary);
+outline: none;
+transition: border-color var(–transition-fast);
+}
+
+.move-input:focus {
+border-color: var(–accent-orange);
+box-shadow: 0 0 0 3px var(–border-glow);
+}
+
+.move-notes-btn {
+width: 36px;
+height: 36px;
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+background: var(–bg-tertiary);
+color: var(–text-muted);
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1rem;
+transition: all var(–transition-fast);
+flex-shrink: 0;
+}
+
+.move-notes-btn:hover {
+border-color: var(–accent-orange);
+color: var(–accent-orange);
+background: var(–accent-orange-dim);
+}
+
+.move-notes-btn.has-notes {
+color: var(–accent-orange);
+border-color: var(–accent-orange);
+}
+
+/* Autocomplete */
+.autocomplete-wrapper {
+position: relative;
+flex: 1;
+}
+
+.autocomplete-dropdown {
+position: absolute;
+top: 100%;
+left: 0;
+right: 0;
+background: var(–bg-secondary);
+border: 1px solid var(–border-primary);
+border-top: none;
+border-radius: 0 0 var(–radius-sm) var(–radius-sm);
+max-height: 180px;
+overflow-y: auto;
+z-index: 50;
+display: none;
+}
+
+.autocomplete-dropdown.visible { display: block; }
+
+.autocomplete-item {
+padding: 6px 12px;
+font-family: var(–font-mono);
+font-size: 0.78rem;
+cursor: pointer;
+transition: background var(–transition-fast);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.highlighted {
+background: var(–accent-orange-dim);
+}
+
+.ac-type {
+font-size: 0.6rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+padding: 1px 5px;
+border-radius: 2px;
+font-weight: 600;
+}
+
+.ac-type-action {
+background: rgba(88,166,255,0.15);
+color: var(–accent-blue);
+}
+
+.ac-type-full {
+background: rgba(63,185,80,0.15);
+color: var(–accent-green);
+}
+
+/* ============================================================
+RIGHT PANEL — NOTES
+============================================================ */
+.panel-right {
+background: var(–bg-secondary);
+border-left: 1px solid var(–border-primary);
+display: flex;
+flex-direction: column;
+overflow: hidden;
+}
+
+.notes-empty {
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 40px 24px;
+text-align: center;
+color: var(–text-muted);
+}
+
+.notes-content {
+display: flex;
+flex-direction: column;
+flex: 1;
+overflow: hidden;
+}
+
+.notes-action-header {
+padding: 16px;
+border-bottom: 1px solid var(–border-primary);
+}
+
+.notes-action-name {
+font-family: var(–font-mono);
+font-size: 1.1rem;
+font-weight: 700;
+color: var(–accent-blue);
+margin-bottom: 4px;
+}
+
+.notes-action-meta {
+font-family: var(–font-mono);
+font-size: 0.7rem;
+color: var(–text-muted);
+}
+
+.notes-usages {
+padding: 12px 16px;
+border-bottom: 1px solid var(–border-primary);
+max-height: 160px;
+overflow-y: auto;
+}
+
+.notes-usages-title {
+font-family: var(–font-mono);
+font-size: 0.65rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: var(–text-muted);
+margin-bottom: 8px;
+}
+
+.usage-chip {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+font-family: var(–font-mono);
+font-size: 0.7rem;
+padding: 3px 8px;
+background: var(–bg-tertiary);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+color: var(–text-secondary);
+margin: 0 4px 4px 0;
+}
+
+.usage-chip img {
+width: 16px;
+height: 16px;
+image-rendering: pixelated;
+}
+
+.notes-editor {
+flex: 1;
+display: flex;
+flex-direction: column;
+padding: 16px;
+overflow: hidden;
+}
+
+.notes-editor-label {
+font-family: var(–font-mono);
+font-size: 0.65rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: var(–text-muted);
+margin-bottom: 8px;
+}
+
+.notes-textarea {
+flex: 1;
+font-family: var(–font-mono);
+font-size: 0.8rem;
+line-height: 1.6;
+padding: 12px;
+background: var(–bg-input);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-md);
+color: var(–text-primary);
+resize: none;
+outline: none;
+transition: border-color var(–transition-fast);
+}
+
+.notes-textarea:focus {
+border-color: var(–accent-orange);
+box-shadow: 0 0 0 3px var(–border-glow);
+}
+
+.notes-textarea::placeholder { color: var(–text-muted); }
+
+.notes-save-indicator {
+font-family: var(–font-mono);
+font-size: 0.65rem;
+color: var(–accent-green);
+margin-top: 8px;
+min-height: 1em;
+transition: opacity var(–transition-med);
+}
+
+/* ============================================================
+IMPORT MODAL
+============================================================ */
+.modal-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.7);
+backdrop-filter: blur(4px);
+z-index: 200;
+display: flex;
+align-items: center;
+justify-content: center;
+opacity: 0;
+pointer-events: none;
+transition: opacity var(–transition-med);
+}
+
+.modal-overlay.visible {
+opacity: 1;
+pointer-events: all;
+}
+
+.modal {
+background: var(–bg-secondary);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-lg);
+width: 90vw;
+max-width: 640px;
+max-height: 80vh;
+display: flex;
+flex-direction: column;
+box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+padding: 16px 20px;
+border-bottom: 1px solid var(–border-primary);
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.modal-title {
+font-family: var(–font-mono);
+font-weight: 700;
+font-size: 0.95rem;
+}
+
+.modal-close {
+width: 32px;
+height: 32px;
+border: none;
+background: none;
+color: var(–text-muted);
+cursor: pointer;
+font-size: 1.2rem;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: var(–radius-sm);
+transition: all var(–transition-fast);
+}
+
+.modal-close:hover {
+background: var(–bg-tertiary);
+color: var(–text-primary);
+}
+
+.modal-body {
+padding: 20px;
+flex: 1;
+overflow-y: auto;
+}
+
+.modal-body p {
+font-size: 0.8rem;
+color: var(–text-secondary);
+margin-bottom: 12px;
+line-height: 1.6;
+}
+
+.modal-body pre {
+font-family: var(–font-mono);
+font-size: 0.72rem;
+background: var(–bg-input);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-sm);
+padding: 12px;
+overflow-x: auto;
+margin-bottom: 12px;
+color: var(–text-secondary);
+line-height: 1.5;
+}
+
+.import-textarea {
+width: 100%;
+min-height: 200px;
+font-family: var(–font-mono);
+font-size: 0.8rem;
+line-height: 1.5;
+padding: 12px;
+background: var(–bg-input);
+border: 1px solid var(–border-primary);
+border-radius: var(–radius-md);
+color: var(–text-primary);
+resize: vertical;
+outline: none;
+}
+
+.import-textarea:focus {
+border-color: var(–accent-orange);
+}
+
+.modal-footer {
+padding: 12px 20px;
+border-top: 1px solid var(–border-primary);
+display: flex;
+justify-content: flex-end;
+gap: 8px;
+}
+
+.import-error {
+font-family: var(–font-mono);
+font-size: 0.75rem;
+color: var(–accent-red);
+margin-top: 8px;
+min-height: 1.2em;
+}
+
+/* ============================================================
+STATS BAR
+============================================================ */
+.stats-bar {
+padding: 10px 16px;
+border-top: 1px solid var(–border-primary);
+font-family: var(–font-mono);
+font-size: 0.65rem;
+color: var(–text-muted);
+display: flex;
+gap: 20px;
+background: var(–bg-secondary);
+}
+
+.stat-item span {
+color: var(–text-secondary);
+font-weight: 600;
+}
+
+/* ============================================================
+RESPONSIVE
+============================================================ */
+@media (max-width: 1100px) {
+.app-container {
+grid-template-columns: 240px 1fr 320px;
+}
+}
+
+@media (max-width: 900px) {
+.app-container {
+grid-template-columns: 1fr;
+grid-template-rows: auto 1fr auto;
+height: auto;
+min-height: calc(100vh - 53px);
+}
+.panel-left {
+border-right: none;
+border-bottom: 1px solid var(–border-primary);
+max-height: 300px;
+}
+.panel-right {
+border-left: none;
+border-top: 1px solid var(–border-primary);
+min-height: 300px;
+}
+}
+</style>
+
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+
+<header class="app-header">
+  <div class="app-logo">
+    <div class="app-logo-icon">M</div>
+    <div class="app-logo-text">MoveForge <span>v1.0.0</span></div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-sm" onclick="exportData()" title="Export all data">&#x2B07; Export</button>
+    <button class="btn btn-sm" onclick="clearAllData()" title="Clear all stored data">&#x1F5D1; Reset</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN APP GRID
+     ============================================================ -->
+
+<div class="app-container">
+
+  <!-- LEFT PANEL -->
+
+  <aside class="panel-left">
+    <div class="panel-header">Pokémon Registry</div>
+    <div class="data-import-section">
+      <button class="btn btn-accent btn-block" onclick="openImportModal()">&#x2B06; Import Data</button>
+    </div>
+    <div class="pokemon-search">
+      <input type="text" class="search-input" id="pokemonSearch" placeholder="Filter Pokémon..." oninput="filterPokemonList()">
+    </div>
+    <div class="pokemon-list" id="pokemonList">
+      <div class="empty-state">
+        <div class="empty-state-icon">&#x1F4E6;</div>
+        <div class="empty-state-text">No data loaded.<br>Import a JSON dataset to begin.</div>
+      </div>
+    </div>
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-item">Pokémon: <span id="statPokemon">0</span></div>
+      <div class="stat-item">Actions: <span id="statActions">0</span></div>
+      <div class="stat-item">Notes: <span id="statNotes">0</span></div>
+    </div>
+  </aside>
+
+  <!-- CENTER PANEL -->
+
+  <main class="panel-center" id="centerPanel">
+    <div class="empty-state" id="centerEmpty">
+      <div class="empty-state-icon">&#x1F3AE;</div>
+      <div class="empty-state-text">Select a Pokémon from the list<br>to edit its move slots.</div>
+    </div>
+    <div class="pokemon-card" id="pokemonCard" style="display:none;">
+      <div class="pokemon-card-header">
+        <div class="sprite-frame">
+          <img id="spriteImg" src="" alt="">
+        </div>
+        <div class="pokemon-info">
+          <h2 id="pokemonName"></h2>
+          <div class="pokemon-meta" id="pokemonMeta"></div>
+        </div>
+      </div>
+      <div class="move-slots-header">
+        <div class="move-slots-title">Move Slots</div>
+        <button class="btn btn-sm" id="addSlotBtn" onclick="addMoveSlot()">+ Add Slot</button>
+      </div>
+      <div id="moveSlotsContainer"></div>
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+
+  <aside class="panel-right">
+    <div class="panel-header">Action Notes</div>
+    <div class="notes-empty" id="notesEmpty">
+      <div class="empty-state-icon">&#x1F4DD;</div>
+      <div class="empty-state-text">Click the notes icon &#x270E; on any<br>move to view or edit shared notes.</div>
+    </div>
+    <div class="notes-content" id="notesContent" style="display:none;">
+      <div class="notes-action-header">
+        <div class="notes-action-name" id="notesActionName"></div>
+        <div class="notes-action-meta" id="notesActionMeta"></div>
+      </div>
+      <div class="notes-usages" id="notesUsages"></div>
+      <div class="notes-editor">
+        <div class="notes-editor-label">Notes</div>
+        <textarea class="notes-textarea" id="notesTextarea" placeholder="Write design notes for this action...&#10;&#10;These notes are shared across all Pokémon using this action."></textarea>
+        <div class="notes-save-indicator" id="notesSaveIndicator"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ============================================================
+     IMPORT MODAL
+     ============================================================ -->
+
+<div class="modal-overlay" id="importModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Import Pokémon Data</div>
+      <button class="modal-close" onclick="closeImportModal()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <p>Paste a JSON array. Each entry needs <code>name</code>, <code>id</code>, and <code>moves</code> (array of up to 4 strings). Example:</p>
+      <pre>[
+  {
+    "name": "Pikachu",
+    "id": 25,
+    "moves": ["Shoot(Spark)", "Dash(Quick)", "Bite light(Foe)"]
+  },
+  {
+    "name": "Charmander",
+    "id": 4,
+    "moves": ["Shoot(Flame)", "Scratch(Foe)"]
+  }
+]</pre>
+      <textarea class="import-textarea" id="importTextarea" placeholder="Paste JSON here..."></textarea>
+      <div class="import-error" id="importError"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeImportModal()">Cancel</button>
+      <button class="btn btn-accent" onclick="importData()">Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+
+<script>
+/* =============================================================
+   DATA MODEL
+   =============================================================
+   AppState holds all runtime state. Storage module handles
+   localStorage. Parser handles move string decomposition.
+   UI module renders from state.
+   ============================================================= */
+
+const AppState = {
+  /** @type {Array<{name:string, id:number, moves:string[]}>} */
+  pokemon: [],
+
+  /** @type {string|null} — currently selected Pokémon name */
+  selectedPokemon: null,
+
+  /** @type {string|null} — currently viewed action in notes panel */
+  activeAction: null,
+
+  /**
+   * Move edits keyed by Pokémon name.
+   * Overrides the imported baseline.
+   * @type {Object<string, string[]>}
+   */
+  moveEdits: {},
+
+  /**
+   * Notes keyed by action name (lowercase).
+   * Shared across all Pokémon with the same action.
+   * @type {Object<string, string>}
+   */
+  actionNotes: {}
+};
+
+/* =============================================================
+   STORAGE MODULE
+   ============================================================= */
+const Storage = {
+  KEYS: {
+    POKEMON: 'moveforge_pokemon',
+    EDITS:   'moveforge_edits',
+    NOTES:   'moveforge_notes'
+  },
+
+  /** Load all persisted data into AppState */
+  load() {
+    try {
+      const pkmn = localStorage.getItem(this.KEYS.POKEMON);
+      if (pkmn) AppState.pokemon = JSON.parse(pkmn);
+
+      const edits = localStorage.getItem(this.KEYS.EDITS);
+      if (edits) AppState.moveEdits = JSON.parse(edits);
+
+      const notes = localStorage.getItem(this.KEYS.NOTES);
+      if (notes) AppState.actionNotes = JSON.parse(notes);
+    } catch (e) {
+      console.error('[Storage] Load error:', e);
+    }
+  },
+
+  /** Persist Pokémon dataset */
+  savePokemon() {
+    try {
+      localStorage.setItem(this.KEYS.POKEMON, JSON.stringify(AppState.pokemon));
+    } catch (e) { console.error('[Storage] Save pokemon error:', e); }
+  },
+
+  /** Persist move edits */
+  saveEdits() {
+    try {
+      localStorage.setItem(this.KEYS.EDITS, JSON.stringify(AppState.moveEdits));
+    } catch (e) { console.error('[Storage] Save edits error:', e); }
+  },
+
+  /** Persist action notes */
+  saveNotes() {
+    try {
+      localStorage.setItem(this.KEYS.NOTES, JSON.stringify(AppState.actionNotes));
+    } catch (e) { console.error('[Storage] Save notes error:', e); }
+  },
+
+  /** Wipe everything */
+  clearAll() {
+    Object.values(this.KEYS).forEach(k => localStorage.removeItem(k));
+  }
+};
+
+/* =============================================================
+   MOVE PARSER
+   =============================================================
+   Parses strings like:
+     "Shoot heavy(Spark)"    → { action:"Shoot", param:"Spark", modifiers:["heavy"], raw:"..." }
+     "Haul heavy x2(Land)"   → { action:"Haul", param:"Land", modifiers:["heavy","x2"], raw:"..." }
+     "Bite(Foe)"             → { action:"Bite", param:"Foe", modifiers:[], raw:"..." }
+     "Rest"                  → { action:"Rest", param:null, modifiers:[], raw:"..." }
+
+   Pattern: <Action> [modifiers...] [(<Parameter>)]
+   
+   The parser is intentionally extensible: modifier patterns are
+   defined in MODIFIER_PATTERNS and can be expanded.
+   ============================================================= */
+const MoveParser = {
+  /**
+   * Known modifier tokens (regex patterns).
+   * Add new modifier types here to extend the system.
+   */
+  MODIFIER_PATTERNS: [
+    /^(light|medium|heavy|ultra)$/i,
+    /^x\d+$/i,                          // x2, x3, etc.
+    /^(fast|slow|charged|split)$/i,
+    /^(aoe|self|ally|random)$/i
+  ],
+
+  /**
+   * Parse a move string into components.
+   * @param {string} raw
+   * @returns {{action:string, param:string|null, modifiers:string[], raw:string}}
+   */
+  parse(raw) {
+    if (!raw || !raw.trim()) {
+      return { action: '', param: null, modifiers: [], raw: raw || '' };
+    }
+
+    const trimmed = raw.trim();
+    let action = '';
+    let param = null;
+    let modifiers = [];
+
+    // Extract parameter in parentheses
+    const parenMatch = trimmed.match(/^(.+?)\(([^)]*)\)\s*$/);
+    let prefix;
+    if (parenMatch) {
+      prefix = parenMatch[1].trim();
+      param = parenMatch[2].trim() || null;
+    } else {
+      prefix = trimmed;
+    }
+
+    // Split prefix into tokens: first token is action, rest checked for modifiers
+    const tokens = prefix.split(/\s+/);
+    if (tokens.length === 1) {
+      action = tokens[0];
+    } else {
+      // Walk tokens: accumulate action words until we hit a modifier
+      let actionParts = [];
+      let hitModifier = false;
+      for (const token of tokens) {
+        if (!hitModifier && !this._isModifier(token)) {
+          actionParts.push(token);
+        } else {
+          hitModifier = true;
+          if (this._isModifier(token)) {
+            modifiers.push(token.toLowerCase());
+          } else {
+            // Unknown token after modifiers — treat as part of action
+            actionParts.push(token);
+          }
+        }
+      }
+      action = actionParts.join(' ');
+    }
+
+    return { action, param, modifiers, raw: trimmed };
+  },
+
+  /**
+   * Reconstruct a move string from components.
+   * @param {{action:string, param:string|null, modifiers:string[]}} parts
+   * @returns {string}
+   */
+  stringify(parts) {
+    let s = parts.action;
+    if (parts.modifiers && parts.modifiers.length) {
+      s += ' ' + parts.modifiers.join(' ');
+    }
+    if (parts.param) {
+      s += '(' + parts.param + ')';
+    }
+    return s;
+  },
+
+  /** @private */
+  _isModifier(token) {
+    return this.MODIFIER_PATTERNS.some(p => p.test(token));
+  },
+
+  /**
+   * Get the normalized action key (lowercase) for notes lookup.
+   * @param {string} raw
+   * @returns {string}
+   */
+  actionKey(raw) {
+    return this.parse(raw).action.toLowerCase();
+  }
+};
+
+/* =============================================================
+   AUTOCOMPLETE ENGINE
+   =============================================================
+   Learns from all moves currently in the dataset + edits.
+   Suggests full move strings and known action names.
+   ============================================================= */
+const Autocomplete = {
+  /**
+   * Gather all current suggestions from the dataset.
+   * @returns {{actions: string[], fullMoves: string[]}}
+   */
+  gather() {
+    const actions = new Set();
+    const fullMoves = new Set();
+
+    for (const pkmn of AppState.pokemon) {
+      const moves = AppState.moveEdits[pkmn.name] || pkmn.moves;
+      for (const m of moves) {
+        if (!m || !m.trim()) continue;
+        const parsed = MoveParser.parse(m);
+        if (parsed.action) actions.add(parsed.action);
+        fullMoves.add(m.trim());
+      }
+    }
+
+    return {
+      actions: [...actions].sort(),
+      fullMoves: [...fullMoves].sort()
+    };
+  },
+
+  /**
+   * Get matching suggestions for a query string.
+   * @param {string} query
+   * @returns {Array<{text:string, type:string}>}
+   */
+  suggest(query) {
+    if (!query || query.length < 1) return [];
+    const q = query.toLowerCase();
+    const { actions, fullMoves } = this.gather();
+    const results = [];
+
+    // Full move matches first
+    for (const fm of fullMoves) {
+      if (fm.toLowerCase().includes(q) && fm.toLowerCase() !== q) {
+        results.push({ text: fm, type: 'move' });
+      }
+      if (results.length >= 8) break;
+    }
+
+    // Then action-only matches
+    for (const a of actions) {
+      if (a.toLowerCase().startsWith(q) && !results.some(r => r.text === a)) {
+        results.push({ text: a, type: 'action' });
+      }
+      if (results.length >= 12) break;
+    }
+
+    return results;
+  }
+};
+
+/* =============================================================
+   UTILITY HELPERS
+   ============================================================= */
+
+/** Escape HTML to prevent XSS */
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/** Get the effective moves array for a Pokémon (edits override baseline) */
+function getEffectiveMoves(pokemonName) {
+  const pkmn = AppState.pokemon.find(p => p.name === pokemonName);
+  if (!pkmn) return [];
+  return AppState.moveEdits[pokemonName] || [...pkmn.moves];
+}
+
+/** Sprite URL from Pokémon ID */
+function spriteUrl(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+}
+
+/** Find all Pokémon using a given action key */
+function findUsagesForAction(actionKey) {
+  const results = [];
+  for (const pkmn of AppState.pokemon) {
+    const moves = getEffectiveMoves(pkmn.name);
+    for (const m of moves) {
+      const parsed = MoveParser.parse(m);
+      if (parsed.action.toLowerCase() === actionKey) {
+        results.push({ name: pkmn.name, id: pkmn.id, move: m });
+      }
+    }
+  }
+  return results;
+}
+
+/* =============================================================
+   UI RENDERING
+   ============================================================= */
+
+/** Render the Pokémon list in the left panel */
+function renderPokemonList() {
+  const container = document.getElementById('pokemonList');
+  const filter = document.getElementById('pokemonSearch').value.toLowerCase();
+
+  if (!AppState.pokemon.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">&#x1F4E6;</div>
+        <div class="empty-state-text">No data loaded.<br>Import a JSON dataset to begin.</div>
+      </div>`;
+    return;
+  }
+
+  const filtered = AppState.pokemon.filter(p =>
+    p.name.toLowerCase().includes(filter)
+  );
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-text">No matches for "${escapeHTML(filter)}"</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <div class="pokemon-list-item ${AppState.selectedPokemon === p.name ? 'active' : ''}"
+         onclick="selectPokemon('${escapeHTML(p.name)}')"
+         title="${escapeHTML(p.name)} (#${p.id})">
+      <img src="${spriteUrl(p.id)}" alt="${escapeHTML(p.name)}" loading="lazy"
+           onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2236%22 height=%2236%22><text y=%2226%22 font-size=%2224%22>?</text></svg>'">
+      <div class="pkmn-name">${escapeHTML(p.name)}</div>
+      <div class="pkmn-id">#${p.id}</div>
+    </div>
+  `).join('');
+}
+
+/** Select a Pokémon and render its moves */
+function selectPokemon(name) {
+  AppState.selectedPokemon = name;
+  renderPokemonList();
+  renderPokemonCard();
+}
+
+/** Render the center panel with move slots */
+function renderPokemonCard() {
+  const pkmn = AppState.pokemon.find(p => p.name === AppState.selectedPokemon);
+  const cardEl = document.getElementById('pokemonCard');
+  const emptyEl = document.getElementById('centerEmpty');
+
+  if (!pkmn) {
+    cardEl.style.display = 'none';
+    emptyEl.style.display = '';
+    return;
+  }
+
+  cardEl.style.display = '';
+  emptyEl.style.display = 'none';
+
+  document.getElementById('spriteImg').src = spriteUrl(pkmn.id);
+  document.getElementById('spriteImg').alt = pkmn.name;
+  document.getElementById('pokemonName').textContent = pkmn.name;
+  document.getElementById('pokemonMeta').textContent = `#${pkmn.id} — ${getEffectiveMoves(pkmn.name).filter(m => m).length} moves`;
+
+  renderMoveSlots();
+}
+
+/** Render individual move slot cards */
+function renderMoveSlots() {
+  const container = document.getElementById('moveSlotsContainer');
+  const moves = getEffectiveMoves(AppState.selectedPokemon);
+
+  container.innerHTML = moves.map((moveStr, i) => {
+    const parsed = MoveParser.parse(moveStr);
+    const actionKey = parsed.action.toLowerCase();
+    const hasNotes = actionKey && AppState.actionNotes[actionKey];
+    const isActive = AppState.activeAction === actionKey && actionKey;
+
+    return `
+    <div class="move-slot ${isActive ? 'active-move' : ''}" data-slot="${i}">
+      <div class="move-slot-header">
+        <span class="slot-number">SLOT ${i + 1}</span>
+        <div class="move-parsed">
+          ${parsed.action ? `<span class="move-tag tag-action">${escapeHTML(parsed.action)}</span>` : ''}
+          ${parsed.modifiers.map(m => `<span class="move-tag tag-modifier">${escapeHTML(m)}</span>`).join('')}
+          ${parsed.param ? `<span class="move-tag tag-param">${escapeHTML(parsed.param)}</span>` : ''}
+        </div>
+      </div>
+      <div class="move-input-row">
+        <div class="autocomplete-wrapper">
+          <input type="text" class="move-input" value="${escapeHTML(moveStr)}"
+                 data-slot="${i}"
+                 oninput="onMoveInput(this, ${i})"
+                 onkeydown="onMoveKeydown(event, ${i})"
+                 onfocus="onMoveFocus(this, ${i})"
+                 onblur="onMoveBlur(${i})"
+                 placeholder="e.g. Shoot heavy(Spark)">
+          <div class="autocomplete-dropdown" id="ac-${i}"></div>
+        </div>
+        <button class="move-notes-btn ${hasNotes ? 'has-notes' : ''}"
+                onclick="openNotesForSlot(${i})"
+                title="Edit notes for this action">&#x270E;</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/** Add an empty move slot (max 6) */
+function addMoveSlot() {
+  if (!AppState.selectedPokemon) return;
+  const moves = getEffectiveMoves(AppState.selectedPokemon);
+  if (moves.length >= 6) return;
+
+  moves.push('');
+  AppState.moveEdits[AppState.selectedPokemon] = moves;
+  Storage.saveEdits();
+  renderMoveSlots();
+  updateStats();
+}
+
+/* =============================================================
+   MOVE INPUT HANDLERS
+   ============================================================= */
+
+let acHighlight = -1; // currently highlighted autocomplete index
+
+function onMoveInput(input, slotIndex) {
+  const value = input.value;
+
+  // Save edit
+  const moves = getEffectiveMoves(AppState.selectedPokemon);
+  moves[slotIndex] = value;
+  AppState.moveEdits[AppState.selectedPokemon] = moves;
+  Storage.saveEdits();
+
+  // Re-render tags in this slot's header
+  const slot = input.closest('.move-slot');
+  const parsed = MoveParser.parse(value);
+  const tagsContainer = slot.querySelector('.move-parsed');
+  tagsContainer.innerHTML = [
+    parsed.action ? `<span class="move-tag tag-action">${escapeHTML(parsed.action)}</span>` : '',
+    ...parsed.modifiers.map(m => `<span class="move-tag tag-modifier">${escapeHTML(m)}</span>`),
+    parsed.param ? `<span class="move-tag tag-param">${escapeHTML(parsed.param)}</span>` : ''
+  ].join('');
+
+  // Update meta
+  document.getElementById('pokemonMeta').textContent =
+    `#${AppState.pokemon.find(p => p.name === AppState.selectedPokemon).id} — ${moves.filter(m => m).length} moves`;
+
+  // Show autocomplete
+  showAutocomplete(slotIndex, value);
+
+  // If notes panel is open for this action, refresh usages
+  if (AppState.activeAction) refreshNotesUsages();
+
+  updateStats();
+}
+
+function onMoveKeydown(e, slotIndex) {
+  const dropdown = document.getElementById('ac-' + slotIndex);
+  const items = dropdown.querySelectorAll('.autocomplete-item');
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    acHighlight = Math.min(acHighlight + 1, items.length - 1);
+    highlightAcItem(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    acHighlight = Math.max(acHighlight - 1, 0);
+    highlightAcItem(items);
+  } else if (e.key === 'Enter' && acHighlight >= 0 && items[acHighlight]) {
+    e.preventDefault();
+    selectAcItem(slotIndex, items[acHighlight].dataset.text);
+  } else if (e.key === 'Escape') {
+    hideAutocomplete(slotIndex);
+  }
+}
+
+function onMoveFocus(input, slotIndex) {
+  if (input.value.length >= 1) {
+    showAutocomplete(slotIndex, input.value);
+  }
+}
+
+function onMoveBlur(slotIndex) {
+  // Delay to allow click on dropdown
+  setTimeout(() => hideAutocomplete(slotIndex), 200);
+}
+
+function showAutocomplete(slotIndex, query) {
+  const dropdown = document.getElementById('ac-' + slotIndex);
+  const suggestions = Autocomplete.suggest(query);
+  acHighlight = -1;
+
+  if (!suggestions.length) {
+    dropdown.classList.remove('visible');
+    return;
+  }
+
+  dropdown.innerHTML = suggestions.map(s => `
+    <div class="autocomplete-item" data-text="${escapeHTML(s.text)}"
+         onmousedown="selectAcItem(${slotIndex}, '${escapeHTML(s.text).replace(/'/g, "\\'")}')">
+      <span class="ac-type ${s.type === 'action' ? 'ac-type-action' : 'ac-type-full'}">${s.type === 'action' ? 'ACT' : 'MOVE'}</span>
+      ${escapeHTML(s.text)}
+    </div>
+  `).join('');
+
+  dropdown.classList.add('visible');
+}
+
+function hideAutocomplete(slotIndex) {
+  document.getElementById('ac-' + slotIndex).classList.remove('visible');
+}
+
+function selectAcItem(slotIndex, text) {
+  const input = document.querySelector(`.move-input[data-slot="${slotIndex}"]`);
+  if (!input) return;
+  input.value = text;
+  onMoveInput(input, slotIndex);
+  hideAutocomplete(slotIndex);
+  input.focus();
+}
+
+function highlightAcItem(items) {
+  items.forEach((el, i) => {
+    el.classList.toggle('highlighted', i === acHighlight);
+  });
+}
+
+/* =============================================================
+   NOTES PANEL
+   ============================================================= */
+
+function openNotesForSlot(slotIndex) {
+  const moves = getEffectiveMoves(AppState.selectedPokemon);
+  const moveStr = moves[slotIndex];
+  if (!moveStr || !moveStr.trim()) return;
+
+  const parsed = MoveParser.parse(moveStr);
+  if (!parsed.action) return;
+
+  const actionKey = parsed.action.toLowerCase();
+  AppState.activeAction = actionKey;
+
+  document.getElementById('notesEmpty').style.display = 'none';
+  document.getElementById('notesContent').style.display = '';
+
+  document.getElementById('notesActionName').textContent = parsed.action;
+
+  refreshNotesUsages();
+
+  // Load notes
+  const textarea = document.getElementById('notesTextarea');
+  textarea.value = AppState.actionNotes[actionKey] || '';
+  document.getElementById('notesSaveIndicator').textContent = '';
+
+  // Highlight active slot
+  renderMoveSlots();
+}
+
+function refreshNotesUsages() {
+  if (!AppState.activeAction) return;
+
+  const usages = findUsagesForAction(AppState.activeAction);
+  document.getElementById('notesActionMeta').textContent = `Used by ${usages.length} Pokémon`;
+
+  const container = document.getElementById('notesUsages');
+  container.innerHTML = `
+    <div class="notes-usages-title">Used In</div>
+    ${usages.map(u => `
+      <span class="usage-chip">
+        <img src="${spriteUrl(u.id)}" alt="${escapeHTML(u.name)}">
+        ${escapeHTML(u.name)} — ${escapeHTML(u.move)}
+      </span>
+    `).join('')}
+  `;
+}
+
+// Auto-save notes on input with debounce
+let notesSaveTimer = null;
+document.getElementById('notesTextarea').addEventListener('input', function() {
+  if (!AppState.activeAction) return;
+
+  AppState.actionNotes[AppState.activeAction] = this.value;
+
+  clearTimeout(notesSaveTimer);
+  document.getElementById('notesSaveIndicator').textContent = 'typing...';
+  document.getElementById('notesSaveIndicator').style.color = 'var(--text-muted)';
+
+  notesSaveTimer = setTimeout(() => {
+    Storage.saveNotes();
+    document.getElementById('notesSaveIndicator').textContent = '✓ saved';
+    document.getElementById('notesSaveIndicator').style.color = 'var(--accent-green)';
+    updateStats();
+
+    // Update notes-btn indicators
+    renderMoveSlots();
+  }, 600);
+});
+
+/* =============================================================
+   IMPORT / EXPORT
+   ============================================================= */
+
+function openImportModal() {
+  document.getElementById('importModal').classList.add('visible');
+  document.getElementById('importTextarea').value = '';
+  document.getElementById('importError').textContent = '';
+  document.getElementById('importTextarea').focus();
+}
+
+function closeImportModal() {
+  document.getElementById('importModal').classList.remove('visible');
+}
+
+function importData() {
+  const raw = document.getElementById('importTextarea').value.trim();
+  const errEl = document.getElementById('importError');
+  errEl.textContent = '';
+
+  if (!raw) {
+    errEl.textContent = 'Please paste JSON data.';
+    return;
+  }
+
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    errEl.textContent = `JSON parse error: ${e.message}`;
+    return;
+  }
+
+  // Validate
+  if (!Array.isArray(data)) {
+    errEl.textContent = 'Data must be a JSON array.';
+    return;
+  }
+
+  const validated = [];
+  for (let i = 0; i < data.length; i++) {
+    const entry = data[i];
+    if (!entry.name || typeof entry.name !== 'string') {
+      errEl.textContent = `Entry ${i}: missing or invalid "name" field.`;
+      return;
+    }
+    if (entry.id == null || typeof entry.id !== 'number') {
+      errEl.textContent = `Entry ${i} (${entry.name}): missing or invalid "id" field (must be number).`;
+      return;
+    }
+    if (!Array.isArray(entry.moves)) {
+      errEl.textContent = `Entry ${i} (${entry.name}): "moves" must be an array.`;
+      return;
+    }
+    validated.push({
+      name: entry.name.trim(),
+      id: Math.floor(entry.id),
+      moves: entry.moves.map(m => typeof m === 'string' ? m.trim() : '').slice(0, 6)
+    });
+  }
+
+  if (!validated.length) {
+    errEl.textContent = 'No valid entries found.';
+    return;
+  }
+
+  // Merge: new entries update existing by name, add new ones
+  const existingMap = {};
+  AppState.pokemon.forEach(p => { existingMap[p.name] = p; });
+  for (const v of validated) {
+    existingMap[v.name] = v;
+  }
+  AppState.pokemon = Object.values(existingMap).sort((a, b) => a.id - b.id);
+
+  Storage.savePokemon();
+  closeImportModal();
+  renderPokemonList();
+  updateStats();
+
+  // Auto-select first if nothing selected
+  if (!AppState.selectedPokemon && AppState.pokemon.length) {
+    selectPokemon(AppState.pokemon[0].name);
+  }
+}
+
+function exportData() {
+  const exportPayload = {
+    pokemon: AppState.pokemon,
+    moveEdits: AppState.moveEdits,
+    actionNotes: AppState.actionNotes,
+    exportedAt: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `moveforge-export-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearAllData() {
+  if (!confirm('Clear ALL stored data? This cannot be undone.')) return;
+  Storage.clearAll();
+  AppState.pokemon = [];
+  AppState.moveEdits = {};
+  AppState.actionNotes = {};
+  AppState.selectedPokemon = null;
+  AppState.activeAction = null;
+
+  renderPokemonList();
+  document.getElementById('pokemonCard').style.display = 'none';
+  document.getElementById('centerEmpty').style.display = '';
+  document.getElementById('notesContent').style.display = 'none';
+  document.getElementById('notesEmpty').style.display = '';
+  updateStats();
+}
+
+/* =============================================================
+   FILTER & STATS
+   ============================================================= */
+
+function filterPokemonList() {
+  renderPokemonList();
+}
+
+function updateStats() {
+  document.getElementById('statPokemon').textContent = AppState.pokemon.length;
+
+  // Count unique actions
+  const actions = new Set();
+  for (const pkmn of AppState.pokemon) {
+    const moves = getEffectiveMoves(pkmn.name);
+    for (const m of moves) {
+      const key = MoveParser.actionKey(m);
+      if (key) actions.add(key);
+    }
+  }
+  document.getElementById('statActions').textContent = actions.size;
+
+  const noteCount = Object.values(AppState.actionNotes).filter(n => n && n.trim()).length;
+  document.getElementById('statNotes').textContent = noteCount;
+}
+
+/* =============================================================
+   KEYBOARD: close modal on Escape
+   ============================================================= */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeImportModal();
+  }
+});
+
+/* Click outside modal to close */
+document.getElementById('importModal').addEventListener('click', function(e) {
+  if (e.target === this) closeImportModal();
+});
+
+/* =============================================================
+   INIT
+   ============================================================= */
+(function init() {
+  Storage.load();
+  renderPokemonList();
+  updateStats();
+
+  // Restore selection if data exists
+  if (AppState.pokemon.length && !AppState.selectedPokemon) {
+    // Don't auto-select, let user pick
+  }
+})();
+</script>
+
+</body>
+</html>
