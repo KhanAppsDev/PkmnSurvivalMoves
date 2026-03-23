@@ -84,6 +84,20 @@ transition:all var(–fast);flex-shrink:0;
 .ibtn:hover,.ibtn.active{background:var(–bg-3);color:var(–text-1)}
 .ibtn svg{width:18px;height:18px}
 
+.menu-btn{
+display:flex;align-items:center;gap:5px;
+padding:6px 12px;min-height:36px;
+border:1px solid var(–border);border-radius:var(–radius-sm);
+background:var(–bg-3);color:var(–text-2);
+font-family:var(–mono);font-size:.7rem;font-weight:500;
+cursor:pointer;transition:all var(–fast);
+-webkit-user-select:none;user-select:none;
+position:relative;z-index:2;
+}
+.menu-btn:active{transform:scale(.95);background:var(–bg-4)}
+.menu-btn:hover{border-color:var(–accent);color:var(–text-1)}
+.menu-btn svg{flex-shrink:0}
+
 .filter-bar{
 display:flex;align-items:center;gap:6px;
 padding:6px 12px;
@@ -437,10 +451,11 @@ DESKTOP
       MoveForge
     </div>
     <div class="toolbar-spacer"></div>
-    <div class="toolbar-ver">v2.0.0</div>
-    <div style="position:relative">
-      <button class="ibtn" onclick="toggleMenu(event)" id="menuBtn" title="Menu">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="pointer-events:none"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+    <div class="toolbar-ver">v3.0.0</div>
+    <div style="position:relative" id="menuWrap">
+      <button type="button" class="menu-btn" id="menuBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        Menu
       </button>
       <div class="dropdown" id="toolbarMenu">
         <button class="dropdown-item" onclick="openImportModal();closeMenu()">
@@ -684,18 +699,39 @@ function findUsages(actionKey) {
 }
 
 /* =============================================================
-   TOOLBAR DROPDOWN
+   TOOLBAR DROPDOWN — robust click handler, no inline onclick
    ============================================================= */
-function toggleMenu(e) {
-  if (e) e.stopPropagation();
-  document.getElementById('toolbarMenu').classList.toggle('open');
-}
-function closeMenu() { document.getElementById('toolbarMenu').classList.remove('open'); }
-document.addEventListener('click', function(e) {
+(function initMenu() {
   var btn = document.getElementById('menuBtn');
   var menu = document.getElementById('toolbarMenu');
-  if (btn && !btn.contains(e.target) && menu && !menu.contains(e.target)) closeMenu();
-});
+  if (!btn || !menu) return;
+
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+
+  btn.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('touchstart', function(e) {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  }, { passive: true });
+})();
+
+function closeMenu() { document.getElementById('toolbarMenu').classList.remove('open'); }
 
 /* =============================================================
    FILTERS
